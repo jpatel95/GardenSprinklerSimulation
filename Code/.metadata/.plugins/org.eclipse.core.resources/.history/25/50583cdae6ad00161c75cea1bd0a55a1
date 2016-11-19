@@ -1,0 +1,13 @@
+package com.hummingbee.tests;
+
+import java.util.HashMap;
+
+import com.hummingbee.system.Usage;
+
+public class UsageTester {
+	public static void main(String[] args) {
+		HashMap<String, Double> map = new HashMap<String, Double>();
+		Usage.update("N1", 10.5);
+		
+	}
+}
