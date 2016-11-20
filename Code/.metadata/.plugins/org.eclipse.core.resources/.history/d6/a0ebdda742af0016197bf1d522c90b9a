@@ -1,0 +1,7 @@
+package com.hummingbee.tests;
+
+public class SprinkerTester {
+	public static void main(String[] args) {
+		Sprinkler sprinkler = new Sprinkler("N1");
+	}
+}

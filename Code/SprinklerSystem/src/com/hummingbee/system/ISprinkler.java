@@ -9,6 +9,8 @@ public interface ISprinkler {
 	public boolean isActive();
 	public boolean isFunctional();
 	public double getWaterFlow();
-	//public void setWaterFlow(); water flow is constant
 	public double getUsage();
+	public String getId();
+	public void activate();
+	public void deactivate();
 }

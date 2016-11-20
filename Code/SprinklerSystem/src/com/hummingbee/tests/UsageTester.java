@@ -9,21 +9,21 @@ public class UsageTester {
 	public static void main(String[] args) {
 		HashMap<String, Double> map;
 		
-		Usage.update("N1", 10.5);
+		//Usage.update("N1", 10.5);
 		map = Usage.readUsage();
-		System.out.println("1");
+		//System.out.println("1");
 		printMap(map);
 		
-		Usage.update("N1", 9.5);
-		Usage.update("N2", 5.4);
-		map = Usage.readUsage();
-		System.out.println("\n2");
-		printMap(map);
-		
-		Usage.resetUsages();
-		map = Usage.readUsage();
-		System.out.println("\n3");
-		printMap(map);
+//		Usage.update("N1", 9.5);
+//		Usage.update("N2", 5.4);
+//		map = Usage.readUsage();
+//		System.out.println("\n2");
+//		printMap(map);
+//		
+//		Usage.resetUsages();
+//		map = Usage.readUsage();
+//		System.out.println("\n3");
+//		printMap(map);
 	}
 	
 	private static void printMap(HashMap<String, Double> map) {

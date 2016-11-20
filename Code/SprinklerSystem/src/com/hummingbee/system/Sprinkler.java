@@ -25,16 +25,14 @@ public class Sprinkler implements ISprinkler {
 	// constructors
 	public Sprinkler() {
 		id = null;
-		active = true;
+		active = false;
 		functional = true;
-		timer = new SprinklerTimer();
 	}
 	
 	public Sprinkler(String id) {
 		this.id = id;
-		active = true;
+		active = false;
 		functional = true;
-		timer = new SprinklerTimer();
 	}
 	
 	// methods
@@ -43,13 +41,17 @@ public class Sprinkler implements ISprinkler {
 	}
 	
 	public void deactivate() {
-		active = false;
-		stopTimer();
+		if (active) {
+			active = false;
+			stopTimer();
+		}
 	}
 	
 	public void activate() {
-		active = true;
-		startTimer();
+		if (!active) {
+			active = true;
+			startTimer();
+		}
 	}
 	
 	// get functionality
@@ -59,6 +61,10 @@ public class Sprinkler implements ISprinkler {
 	
 	public void setFunctional(boolean functional) {
 		this.functional = functional;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	// get the usage from serialized file
@@ -72,6 +78,7 @@ public class Sprinkler implements ISprinkler {
 	}
 	
 	private void startTimer() {
+		timer = new SprinklerTimer();
 		timer.start();
 	}
 	
@@ -100,6 +107,8 @@ public class Sprinkler implements ISprinkler {
 		 * start the timer with a task to update the usage every interval
 		 */
 		public void start() {
+			startTime = new Date();
+			
 			schedule(new TimerTask() {
 				public void run() {
 					startTime = new Date();
