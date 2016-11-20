@@ -1,0 +1,53 @@
+package com.hummingbee.system;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+
+/**
+ * Usage class that reads and writes serialized file storing all sprinkler usages
+ * @author Nick
+ *
+ */
+public class Usage {
+	// usages serialized file path
+	private static final String USAGES_FILE_PATH = "resources/usage.ser";
+	// HashMap of sprinkler usages
+	private static HashMap<String, Double> sprinklerUsages;
+	
+	// updates the stored usages and GUI
+	public static void update(String sprinklerId, double usage) {
+		sprinklerUsages = readUsage();
+	}
+	
+	private static HashMap<String, Double> readUsage() {
+		HashMap<String, Double> map;
+		try {
+			FileInputStream fis = new FileInputStream(USAGES_FILE_PATH);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			map = (HashMap) ois.readObject();
+		} catch (FileNotFoundException e) {
+			map = new HashMap();
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
+	private static void writeUsage(HashMap<String, Double> map) {
+		try {
+			FileOutputStream fos = new FileOutputStream(USAGES_FILE_PATH);
+	        ObjectOutputStream oos = new ObjectOutputStream(fos);
+	        oos.writeObject(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			oos.close();
+		}
+	}
+
+}

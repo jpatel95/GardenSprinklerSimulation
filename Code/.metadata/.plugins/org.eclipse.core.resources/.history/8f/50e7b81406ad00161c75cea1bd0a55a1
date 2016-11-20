@@ -1,0 +1,62 @@
+package com.hummingbee.system;
+
+import java.util.Date;
+
+/**
+ * Sprinkler class defines a single Sprinkler node
+ * @author Nick
+ *
+ */
+public class Sprinkler implements ISprinkler {
+	// constants
+	// water flow cubic feet per minute
+	private static final double WATER_FLOW = 0.5;
+	
+	// data members
+	private String id;
+	private boolean active;
+	private boolean functional;
+	private double usage;
+	private Date startingTime;
+	
+	// constructors
+	public Sprinkler() {
+		active = true;
+		functional = true;
+		usage = 0;
+	}
+	
+	public Sprinkler(String id) {
+		this.id = id;
+		active = true;
+		functional = true;
+		usage = 0;
+	}
+	
+	// methods
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void deactivate() {
+		active = false;
+	}
+	
+	public boolean isFunctional() {
+		return functional;
+	}
+	
+	// get the usage from serialized file
+	public double getUsage() {
+		return usage;
+	}
+	
+	// get sprinkler water flow
+	public double getWaterFlow() {
+		return WATER_FLOW;
+	}
+	
+	private void startTimer() {
+		
+	}
+}

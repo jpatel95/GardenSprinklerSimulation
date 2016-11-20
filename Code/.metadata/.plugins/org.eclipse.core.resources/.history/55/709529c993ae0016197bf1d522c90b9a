@@ -1,0 +1,109 @@
+package com.hummingbee.system;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
+/**
+ * Sprinkler class defines a single Sprinkler node
+ * @author Nick
+ *
+ */
+public class Sprinkler implements ISprinkler {
+	// constants
+	// water flow cubic feet per minute
+	private static final double WATER_FLOW = 0.5;
+	
+	// data members
+	private String id;
+	private boolean active;
+	private boolean functional;
+	private double usage;
+	private Timer timer;
+	
+	// constructors
+	public Sprinkler() {
+		active = true;
+		functional = true;
+		usage = 0;
+	}
+	
+	public Sprinkler(String id) {
+		this.id = id;
+		active = true;
+		functional = true;
+		usage = 0;
+	}
+	
+	// methods
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void deactivate() {
+		active = false;
+	}
+	
+	public void activate() {
+		active = true;
+	}
+	
+	// get functionality
+	public boolean isFunctional() {
+		return functional;
+	}
+	
+	public void setFunctional(boolean functional) {
+		this.functional = functional;
+	}
+	
+	// get the usage from serialized file
+	public double getUsage() {
+		return usage;
+	}
+	
+	// get sprinkler water flow
+	public double getWaterFlow() {
+		return WATER_FLOW;
+	}
+	
+	private void startTimer() {
+	}
+	
+	private void stopTimer() {
+	}
+	
+	// inner timer class to calculate the sprinkler usage
+	class SprinklerTimer extends Timer {
+		// constants
+		// the program will update the usage every 10 seconds in real time (10 minutes in simulation time)
+		private static final int UPDATE_INTERVAL = 10;
+		
+		// data members
+		private Date startTime;
+		
+		public SprinklerTimer() {
+			startTime = null;
+		}
+		
+		public void start() {
+			schedule(new TimerTask() {
+				public void run() {
+					startTime = new Date();
+					Usage.update(id, WATER_FLOW * UPDATE_INTERVAL);
+				}
+			}, UPDATE_INTERVAL * 1000);
+		}
+		
+		public double stop() {
+			// get the time of termination
+			Date stopTime = new Date();
+			// get the number of seconds that have passed since the sprinkler started
+			double time = (stopTime.getTime() - startTime.getTime()) / 1000;
+			// update the sprinkler usage
+			
+		}
+	}
+}
