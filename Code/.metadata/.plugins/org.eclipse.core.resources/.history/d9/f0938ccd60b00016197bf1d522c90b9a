@@ -1,0 +1,8 @@
+package com.hummingbee.system;
+
+import java.util.ArrayList;
+
+public class SprinklerUsage {
+	private ArrayList<Double> usageList;
+	
+}

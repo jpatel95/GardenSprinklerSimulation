@@ -1,0 +1,60 @@
+package com.hummingbee.system;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class UpdateTimer extends Timer {
+	// constants
+	// the program will update the usage every 10 minutes (10 seconds in real time)
+	private static final int UPDATE_INTERVAL = 10;
+	
+	// data members
+	private HashMap<Sprinkler, Date> sprinklers;
+	
+	public UpdateTimer() {
+		sprinklers = new HashMap<Sprinkler, Date>();
+	}
+	
+	/**
+	 * start the timer with a task to update the usage every interval
+	 */
+	private void start() {
+		schedule(new TimerTask() {
+			public void run() {
+				Iterator<Sprinkler> iterator = sprinklers.keySet().iterator();
+				while (iterator.hasNext()) {
+					Sprinkler sprinkler = iterator.next();
+					Date lastUpdate = sprinklers.get(sprinkler);
+					Date now = new Date();
+					double elapsedSeconds = (now.getTime() - lastUpdate.getTime()) / 1000;
+					Usage.update(sprinkler.getId(), sprinkler.getWaterFlow() * elapsedSeconds);
+					sprinklers.put(sprinkler, now);
+				}
+			}
+		}, UPDATE_INTERVAL * 1000);
+	}
+	
+	/**
+	 * stop the timer
+	 */
+	private void stop() {
+		cancel();
+	}
+	
+	public void addSprinkler(Sprinkler sprinkler) {
+		
+	}
+	
+	public void removeSprinkler(String sprinklerId) {
+		// get the time of termination
+		Date stopTime = new Date();
+		// get the number of minutes (seconds in real time)
+		// that have passed since the sprinkler started
+		double time = (stopTime.getTime() - startTime.getTime()) / 1000;
+		// update the sprinkler usage
+		Usage.update(id, WATER_FLOW * time);
+	}
+}

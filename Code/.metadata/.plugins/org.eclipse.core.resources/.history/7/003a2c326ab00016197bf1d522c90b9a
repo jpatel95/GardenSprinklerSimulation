@@ -1,0 +1,12 @@
+package com.hummingbee.system;
+
+public class ControlPanel {
+	
+	public static class UserInterface extends JFrame {
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}

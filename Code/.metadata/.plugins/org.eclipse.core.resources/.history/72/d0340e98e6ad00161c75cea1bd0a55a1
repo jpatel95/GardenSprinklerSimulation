@@ -1,7 +1,0 @@
-package com.hummingbee.tests;
-
-import java.util.HashMap;
-
-public class UsageTester {
-	private static HashMap<String, Double> map;
-}

@@ -1,0 +1,19 @@
+package com.hummingbee.system;
+
+import java.time.LocalDate;
+
+public class DayUsage {
+	// data members
+	LocalDate day;
+	double usage;
+	
+	public DayUsage() {
+		day = null;
+		usage = 0;
+	}
+	
+	public DayUsage(LocalDate day) {
+		this.day = day;
+		day = date.getDay() + "";
+	}
+}

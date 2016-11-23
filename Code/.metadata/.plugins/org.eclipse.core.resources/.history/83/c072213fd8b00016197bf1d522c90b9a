@@ -1,0 +1,7 @@
+package com.hummingbee.system;
+
+public class DayUsage {
+	// data members
+	Date day;
+	double usage;
+}

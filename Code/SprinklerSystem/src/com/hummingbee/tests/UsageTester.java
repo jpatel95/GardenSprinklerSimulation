@@ -1,36 +1,70 @@
 package com.hummingbee.tests;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
+import com.hummingbee.system.DayUsage;
+import com.hummingbee.system.Sprinkler;
 import com.hummingbee.system.Usage;
 
 public class UsageTester {
 	public static void main(String[] args) {
+		Usage.resetUsages();
 		HashMap<String, Double> map;
+		HashMap<String, LinkedList<DayUsage>> sprinklerMap;
 		
-		//Usage.update("N1", 10.5);
-		map = Usage.readUsage();
-		//System.out.println("1");
-		printMap(map);
+		Sprinkler n1 = new Sprinkler("N1");
+		Sprinkler n2 = new Sprinkler("N2");
+		n1.activate();
+		try {
+			TimeUnit.SECONDS.sleep((long) 2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		n2.activate();
+		try {
+			TimeUnit.SECONDS.sleep((long) 15);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		n1.deactivate();
+		n2.deactivate();
 		
-//		Usage.update("N1", 9.5);
-//		Usage.update("N2", 5.4);
-//		map = Usage.readUsage();
-//		System.out.println("\n2");
-//		printMap(map);
-//		
-//		Usage.resetUsages();
-//		map = Usage.readUsage();
-//		System.out.println("\n3");
-//		printMap(map);
+		map = Usage.readTotalUsages();
+		//System.out.println("Total Usages: ");
+		//printMap(map);
+		
+		sprinklerMap = Usage.readSprinklerUsages();
+		System.out.println("Sprinkler Usages: ");
+		printSprinklerMap(sprinklerMap);
+		
+		
 	}
 	
 	private static void printMap(HashMap<String, Double> map) {
 		Iterator<String> keysIterator = map.keySet().iterator();
-		Iterator<Double> valuesIterator = map.values().iterator();
-		while (keysIterator.hasNext() && valuesIterator.hasNext()) {
-			System.out.println(keysIterator.next() + ": " + valuesIterator.next());
+		while (keysIterator.hasNext()) {
+			String key = keysIterator.next();
+			System.out.println(key + ": " + map.get(key));
+		}
+	}
+	
+	public static void printSprinklerMap(HashMap<String, LinkedList<DayUsage>> map) {
+		Iterator<String> sprinklerIterator = map.keySet().iterator();
+		while (sprinklerIterator.hasNext()) {
+			String key = sprinklerIterator.next();
+			Iterator<DayUsage> historyIterator = map.get(key).iterator();
+			System.out.print(key + "-> ");
+			while (historyIterator.hasNext()) {
+				DayUsage day = historyIterator.next();
+				System.out.print(day.getDay() + ": " + day.getUsage() + ", ");
+			}
+			System.out.println("");
 		}
 	}
 }

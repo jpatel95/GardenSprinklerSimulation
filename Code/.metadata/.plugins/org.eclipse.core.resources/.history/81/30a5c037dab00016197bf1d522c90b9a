@@ -1,0 +1,21 @@
+package com.hummingbee.system;
+
+import java.util.Date;
+
+public class DayUsage {
+	// data members
+	int day;
+	int month;
+	int year;
+	double usage;
+	
+	public DayUsage() {
+		day = null;
+		usage = 0;
+	}
+	
+	public DayUsage(long timestamp) {
+		Date date = new Date(timestamp);
+		day = date.getDay() + "";
+	}
+}

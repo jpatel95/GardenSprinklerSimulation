@@ -1,0 +1,18 @@
+package com.hummingbee.system;
+
+import java.util.Date;
+
+public class DayUsage {
+	// data members
+	Date day;
+	double usage;
+	
+	public DayUsage() {
+		day = new Date();
+		usage = 0;
+	}
+	
+	public DayUsage(long timestamp) {
+		
+	}
+}
