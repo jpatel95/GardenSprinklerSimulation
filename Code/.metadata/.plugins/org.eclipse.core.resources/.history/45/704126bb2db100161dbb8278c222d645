@@ -1,0 +1,93 @@
+package com.hummingbee.system;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import com.hummingbee.enums.Days;
+import org.joda.time.Interval;
+
+public class Schedule {
+	private static Schedule instance = null;
+	private Map<Days, List<Interval>> schedule;
+	
+	private Schedule(){
+		initializeSchedule();
+	}
+	
+	public Map<Days, List<Interval>> getSchedule(){
+		return schedule;
+	}
+	
+	public List<Interval> getScheduleForDay(Days day){
+		return schedule.get(day);
+	}
+	
+	public static Schedule getInstance() {
+		if(instance == null) {
+				instance = new Schedule();
+		}
+		return instance;
+	}
+	
+	public void setSchedule(Map<Days, List<Interval>> newSchedule){
+		for(Entry<Days, List<Interval>> entry: newSchedule.entrySet()){
+			schedule.put(entry.getKey(), mergeIntervals(entry.getValue()));
+		}
+	}
+	
+	public List<Interval> mergeIntervals(List<Interval> intervals){
+		List<Interval> result = new ArrayList<Interval>();
+
+		if(intervals==null||intervals.size()==0){
+			return result;
+		}
+		
+		Collections.sort(intervals, new IntervalComparator());
+		Interval prev = intervals.get(0);
+		for(int i=0; i<intervals.size()-1; ++i){
+			Interval curr = intervals.get(i);
+			if(curr.getStartMillis()>prev.getEndMillis()){
+				result.add(prev);
+				prev = curr;
+			}else{
+				Interval merged = new Interval(prev.getStartMillis(), Math.max(prev.getEndMillis(), curr.getEndMillis()));
+				prev = merged;
+			}
+			
+		}
+		result.add(prev);
+		return result;
+	}
+	
+	public void removeAll(){
+		schedule.clear();
+		initializeSchedule();
+	}
+	
+	public void removeDay(Days day){
+		schedule.remove(day);
+		schedule.put(day, new ArrayList<Interval>());
+	}
+	
+	private void initializeSchedule(){
+		schedule = new HashMap<Days, List<Interval>>();
+		schedule.put(Days.SUNDAY, new ArrayList<Interval>());
+		schedule.put(Days.MONDAY, new ArrayList<Interval>());
+		schedule.put(Days.TUESDAY, new ArrayList<Interval>());
+		schedule.put(Days.WEDNESDAY, new ArrayList<Interval>());
+		schedule.put(Days.THURSDAY, new ArrayList<Interval>());
+		schedule.put(Days.FRIDAY, new ArrayList<Interval>());
+		schedule.put(Days.SATURDAY, new ArrayList<Interval>());
+	}
+}
+
+class IntervalComparator implements Comparator<Interval>{
+	@Override
+	public int compare(Interval i1, Interval i2) {
+		return (int) (i1.getStartMillis() - i2.getStartMillis());
+	}
+}

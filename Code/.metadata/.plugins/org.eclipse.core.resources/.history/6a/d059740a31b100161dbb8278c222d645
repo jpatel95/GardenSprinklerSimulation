@@ -1,0 +1,7 @@
+package com.hummingbee.tests;
+
+public class ThermometerTester {
+	public static void main(String[] args) {
+		testMergeValid();
+	}
+}

@@ -1,0 +1,31 @@
+package com.hummingbee.system;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+
+public class Schedule {
+	private List<Interval> intervals;
+	
+	public Schedule(){
+		this.intervals = new ArrayList<Interval>();
+	}
+	
+	public Schedule(List<Interval> intervals){
+		this.intervals = new ArrayList<Interval>(intervals);
+	}
+	
+	public void addIntervals(Interval interval){
+		this.intervals = new ArrayList<Interval>();
+	}
+	
+	public void addIntervals(List<Interval> intervals){
+		this.intervals = new ArrayList<Interval>();
+	}
+	
+	public void getIntervals(){
+		return intervals;
+	}
+}

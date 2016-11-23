@@ -1,0 +1,22 @@
+package com.hummingbee.enums;
+
+public enum Days {
+	SUNDAY("Sunday"),
+	MONDAY("Monday"),
+	TUESDAY("Tuesday"),
+	WEDNESDAY("Wednesday"),
+	THURSDAY("Thursday"),
+	FRIDAY("Friday"),
+	SATURDAY("Saturday");	
+	
+	private String dayString;
+	
+	private Day(String str){
+		this.dayString = str;
+	}
+	
+	@Override
+	public String toString(){
+		return dayString;
+	}
+}
