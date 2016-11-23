@@ -1,0 +1,96 @@
+package com.hummingbee.system;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.hummingbee.enums.Days;
+
+import org.joda.time.Interval;
+
+public class Schedule {
+	private static Schedule instance = null;
+	private Map<Days, List<Interval>> schedule;
+	
+	private Schedule(){
+		initializeSchedule();
+	}
+	
+	public Map<Days, List<Interval>> getSchedule(){
+		return schedule;
+	}
+	
+	public Map<Days, List<Interval>> getScheduleForDay(Days day){
+		return schedule.get(day);
+	}
+	
+	public static Schedule getInstance() {
+		if(instance == null) {
+				instance = new Schedule();
+		}
+		return instance;
+	}
+	
+	private void initializeSchedule(){
+		schedule = new HashMap<Days, List<Interval>>();
+		schedule.put(Days.SUNDAY, new ArrayList<Interval>());
+		schedule.put(Days.MONDAY, new ArrayList<Interval>());
+		schedule.put(Days.TUESDAY, new ArrayList<Interval>());
+		schedule.put(Days.WEDNESDAY, new ArrayList<Interval>());
+		schedule.put(Days.THURSDAY, new ArrayList<Interval>());
+		schedule.put(Days.FRIDAY, new ArrayList<Interval>());
+		schedule.put(Days.SATURDAY, new ArrayList<Interval>());
+	}
+	
+	
+	
+//	
+//	public void addIntervals(List<Interval> intervals) throws Exception{
+//		if(!isValidIntervals(intervals)){
+//			throw new Exception("Invalid Interval");
+//		}
+//		this.intervals.addAll(intervals);
+//	}
+//	
+//	
+//	public void removeInterval(int index) throws Exception{
+//		if(index<0 || index>=intervals.size()){
+//			throw new Exception("Invalid Interval Removal Index");
+//		}
+//		this.intervals.remove(index);
+//	}
+//	
+//	public void removeAllInterval() throws Exception{
+//		this.intervals.clear();
+//	}
+	
+	public boolean isValidIntervals(List<Interval> intervals){
+		Collections.sort(intervals, new IntervalComparator());
+		for(int i=0; i<intervals.size(); ++i){
+			Interval i1 = intervals.get(i);
+			
+			if(i1.getStartMillis()>i1.getEndMillis()){
+				return false;
+			}
+			
+			if(i<intervals.size()-1){
+				Interval i2 = intervals.get(i+1);
+				if(i1.getEndMillis()>i2.getStartMillis()){
+					return false;
+				}
+			}
+			
+		}
+		return true;
+	}
+}
+
+class IntervalComparator implements Comparator<Interval>{
+	@Override
+	public int compare(Interval i1, Interval i2) {
+		return (int) (i1.getStartMillis() - i2.getStartMillis());
+	}
+}

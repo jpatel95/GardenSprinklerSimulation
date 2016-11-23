@@ -1,0 +1,25 @@
+package com.hummingbee.system;
+
+/**
+ * The following class is a singleton class that will be used to maintain the ambient temperature
+ * for the system.
+ * 
+ * @author jimmypatel
+ *
+ */
+public class Temperature {
+	private static Temperature instance = null;
+	private double degreesFarenheit;
+	
+	private Temperature(double degreesF){
+		
+	}
+	
+	//Getter for the single instance of the class.
+	public static Temperature getInstance() {
+		if(instance == null) {
+				instance = new Temperature(60.0);
+		}
+		return instance;
+	}
+}

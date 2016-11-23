@@ -1,0 +1,5 @@
+package com.hummingbee.enums;
+
+public enum Status {
+
+}

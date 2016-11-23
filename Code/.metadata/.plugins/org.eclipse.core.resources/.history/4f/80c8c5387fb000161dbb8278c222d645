@@ -1,0 +1,17 @@
+package com.hummingbee.system;
+
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+public class Schedule {
+	
+	public Schedule(){
+		
+	}
+	
+	public Schedule(List<DateTime> dates){
+		
+	}
+	
+}

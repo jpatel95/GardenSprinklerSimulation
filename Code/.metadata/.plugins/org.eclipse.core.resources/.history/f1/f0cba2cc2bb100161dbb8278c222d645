@@ -1,0 +1,57 @@
+package com.hummingbee.tests;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.joda.time.Interval;
+import com.hummingbee.system.Schedule;
+
+public class ScheduleTester {
+	public static void main(String[] args) {
+		testValid();
+		testInvalid();
+	}
+	
+	public static void testValid(){
+		Schedule s1 = new Schedule();	
+		List<Interval> intervals = new ArrayList<Interval>();
+		
+		intervals.add(new Interval(System.currentTimeMillis(), System.currentTimeMillis()+1000));
+		intervals.add(new Interval(System.currentTimeMillis()-6000, System.currentTimeMillis()-5000));
+		intervals.add(new Interval(System.currentTimeMillis()-4000, System.currentTimeMillis()-3000));
+		intervals.add(new Interval(System.currentTimeMillis()-2000, System.currentTimeMillis()-1000));
+		intervals.add(new Interval(System.currentTimeMillis()-8000, System.currentTimeMillis()-7000));
+		intervals.add(new Interval(System.currentTimeMillis()-10000, System.currentTimeMillis()-9000));
+		
+		try {
+			s1.addIntervals(intervals);
+		} catch (Exception e) {
+			System.out.println("ERROR");
+			e.printStackTrace();
+		}
+		
+		for(Interval i2: s1.getIntervals()){
+			System.out.println(i2.getStart() + ", " + i2.getEnd());
+		}
+		
+	}
+	
+	public static void testInvalid(){
+		Schedule s1 = new Schedule();	
+		List<Interval> intervals = new ArrayList<Interval>();
+		
+		intervals.add(new Interval(System.currentTimeMillis()-6000, System.currentTimeMillis()-5000));
+		intervals.add(new Interval(System.currentTimeMillis()-6000, System.currentTimeMillis()-3000));
+		
+		try {
+			s1.addIntervals(intervals);
+		} catch (Exception e) {
+			System.out.println("ERROR");
+			e.printStackTrace();
+		}
+		
+		for(Interval i2: s1.getIntervals()){
+			System.out.println(i2.getStart() + ", " + i2.getEnd());
+		}
+		
+	}
+}
