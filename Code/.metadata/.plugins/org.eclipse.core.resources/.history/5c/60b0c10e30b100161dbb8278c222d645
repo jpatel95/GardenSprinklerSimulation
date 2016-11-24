@@ -1,0 +1,19 @@
+package com.hummingbee.enums;
+
+public enum Status {
+	OK("OK"),
+	NOTOK("NOTOK"),
+	ON("ON"),
+	NOTON("NOTON"),
+	
+	private String dayString;
+	
+	private Days(String str){
+		this.dayString = str;
+	}
+	
+	@Override
+	public String toString(){
+		return dayString;
+	}
+}
