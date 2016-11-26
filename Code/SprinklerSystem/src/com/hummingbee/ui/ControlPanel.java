@@ -1,5 +1,6 @@
-package com.hummingbee.system;
+package com.hummingbee.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.hummingbee.system.SprinklerCluster;
 
 public class ControlPanel {
 	
@@ -22,14 +25,16 @@ public class ControlPanel {
 			setPreferredSize(new Dimension(500, 500));
 			
 			Container container = getContentPane();
-			container.setLayout(new GridLayout());
+			container.setLayout(new BorderLayout());
 			
 			btnActivateSprinklers = new ArrayList<JButton>();
 			usagesPanel = new JPanel();
 			controlPanel = new JPanel();
-			btnAddSprinkler = new JButton("Add Sprinkler");
 			
-			container.add(usagesPanel);
+			
+			
+			container.add(usagesPanel, BorderLayout.NORTH);
+			container.add(controlPanel, BorderLayout.SOUTH);
 			
 			pack();
 			setLocationRelativeTo(null);
@@ -45,6 +50,6 @@ public class ControlPanel {
 	}
 	
 	public static void main(String[] args) {
-		
+		new UserInterface();
 	}
 }
