@@ -1,7 +1,0 @@
-package com.hummingbee.system;
-
-public class ControlPanel {
-	public static void main(String[] args) {
-		
-	}
-}
