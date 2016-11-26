@@ -11,7 +11,7 @@ public class SprinkerTester {
 		Usage.resetUsages();
 		
 		ISprinkler sprinkler = new Sprinkler("N1");
-		System.out.println("usage 1: " + sprinkler.getUsage());
+		System.out.println("usage 1: " + sprinkler.getTotalUsage());
 		sprinkler.activate();
 		
 		try {
@@ -22,7 +22,7 @@ public class SprinkerTester {
 		}
 		
 		sprinkler.deactivate();
-		System.out.println("usage 2: " + sprinkler.getUsage());
+		System.out.println("usage 2: " + sprinkler.getTotalUsage());
 		System.out.println(sprinkler.getId() + " is active: " + sprinkler.isActive());
 		System.out.println(sprinkler.getId() + " is functional: " + sprinkler.isFunctional());
 		
@@ -36,6 +36,6 @@ public class SprinkerTester {
 		}
 		
 		sprinkler.deactivate();
-		System.out.println("usage 3: " + sprinkler.getUsage());
+		System.out.println("usage 3: " + sprinkler.getTotalUsage());
 	}
 }
