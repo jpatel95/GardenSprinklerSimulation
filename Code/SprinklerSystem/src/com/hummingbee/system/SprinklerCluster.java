@@ -117,6 +117,17 @@ public class SprinklerCluster implements ISprinkler {
 		
 		return result;
 	}
+	
+	public double getUsage(int daysLookback) {
+		double result = 0;
+		Iterator<DayUsage> iterator = getUsageHistory(daysLookback).iterator();
+		
+		while (iterator.hasNext()) {
+			result += iterator.next().getUsage();
+		}
+		
+		return result;	
+	}
 
 	@Override
 	public String getId() {

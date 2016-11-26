@@ -12,6 +12,7 @@ public interface ISprinkler {
 	public boolean isFunctional();
 	public double getWaterFlow();
 	public double getTotalUsage();
+	public double getUsage(int dayLookback);
 	public LinkedList<DayUsage> getUsageHistory(int dayLookback);
 	public String getId();
 	public void activate();

@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.hummingbee.tests.UsageTester;
-
 /**
  * Usage class that reads and writes serialized file storing all sprinkler usages
  * @author Nick
@@ -55,9 +53,8 @@ public class Usage {
 		else {
 			lastUpdate = sprinklerUsage.getFirst();
 			// if the day of last update isn't today
-			if (!lastUpdate.getDay().equals(LocalDate.now())) {
-				System.out.println("New Day, old is " + lastUpdate.getDay() + ", new is " + LocalDate.now());
-				DayUsage dayUsage = new DayUsage(LocalDate.now(), usage);
+			if (!lastUpdate.getDay().equals(SystemDate.getDate())) {
+				DayUsage dayUsage = new DayUsage(SystemDate.getDate(), usage);
 				sprinklerUsage.addFirst(dayUsage);
 			}
 			else {
@@ -95,7 +92,7 @@ public class Usage {
 	 * @return linked list of past and current day usage, most recent day first
 	 */
 	public static LinkedList<DayUsage> getSprinklerUsage(String sprinklerId, int daysLookback) {
-		LocalDate lookBack = LocalDate.now();
+		LocalDate lookBack = SystemDate.getDate();
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
 		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.get(sprinklerId);
 		Iterator<DayUsage> iterator = sprinklerUsage.iterator();
