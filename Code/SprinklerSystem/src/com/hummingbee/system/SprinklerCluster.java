@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.hummingbee.enums.Direction;
+
 public class SprinklerCluster implements ISprinkler {
 	// data members
 	// map of sprinkler ids to sprinklers in cluster
@@ -23,6 +25,11 @@ public class SprinklerCluster implements ISprinkler {
 	public SprinklerCluster(String location) {
 		sprinklerMap = new HashMap<String, Sprinkler>();
 		clusterId = location;
+	}
+	
+	public SprinklerCluster(Direction location) {
+		sprinklerMap = new HashMap<String, Sprinkler>();
+		clusterId = location.toString();
 	}
 
 	/**
@@ -157,7 +164,7 @@ public class SprinklerCluster implements ISprinkler {
 	}
 	
 	public void addSprinkler() {
-		Sprinkler sprinkler = new Sprinkler(Integer.toString(nextId));
+		Sprinkler sprinkler = new Sprinkler(clusterId + Integer.toString(nextId));
 		nextId++;
 		
 		sprinklerMap.put(sprinkler.getId(), sprinkler);
@@ -169,5 +176,9 @@ public class SprinklerCluster implements ISprinkler {
 	
 	public Iterator<Sprinkler> getIterator() {
 		return sprinklerMap.values().iterator();
+	}
+	
+	public Sprinkler getSprinkler(String id) {
+		return sprinklerMap.containsKey(id) ? sprinklerMap.get(id) : null;
 	}
 }
