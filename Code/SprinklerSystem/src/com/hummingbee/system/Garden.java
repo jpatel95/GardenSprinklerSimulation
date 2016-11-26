@@ -76,4 +76,16 @@ public class Garden {
 		
 		return westCluster.getUsage(dayLookback);
 	}
+	
+	public static double getTemperature() {
+		return Thermometer.getInstance().getTemperature();
+	}
+	
+	public static void incrementTemperature() {
+		Thermometer.getInstance().incrementTemperature();
+	}
+	
+	public static void decrementTemperature() {
+		Thermometer.getInstance().decrementTemperature();
+	}
 }
