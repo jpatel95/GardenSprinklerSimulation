@@ -1,8 +1,0 @@
-package com.hummingbee.system;
-
-public class Temperature {
-	private static Temperature instance = null;
-	
-	private Temperature(){
-	}
-}
