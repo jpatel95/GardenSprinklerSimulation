@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -127,6 +128,8 @@ public class UsagePanel extends JPanel {
 	    private int pointWidth = 4;
 	    private int numberYDivisions = 10;
 	    private HashMap<String, LinkedList<DayUsage>> usages;
+	    private HashMap<String, Float> colorCodes;
+	    private JPanel legendPanel;
 
 	    public GraphPanel(HashMap<String, LinkedList<DayUsage>> usages, int width, int height) {
 	    	super(new BorderLayout());
@@ -138,6 +141,29 @@ public class UsagePanel extends JPanel {
 	        title.setFont(new Font("Arial", Font.BOLD, 20));
 	        title.setHorizontalAlignment(JLabel.CENTER);
 	        add(title, BorderLayout.NORTH);
+	        
+	        colorCodes = new HashMap<String, Float>();
+	        Iterator<String> iterator = usages.keySet().iterator();
+	        while (iterator.hasNext()) {
+	        	String key = iterator.next();
+	        	float hue = (float) Math.random();
+	        	while (colorCodes.values().contains(hue)) {
+	        		hue = (float) Math.random();
+	        	}
+	        	colorCodes.put(key, hue);
+	        }
+	        
+	        legendPanel = new JPanel();
+	        legendPanel.add(new JLabel("Legend: "));
+	        iterator = usages.keySet().iterator();
+	        while (iterator.hasNext()) {
+	        	String key = iterator.next();
+	        	JLabel label = new JLabel(key);
+	        	label.setBorder(BorderFactory.createLineBorder(Color.getHSBColor(colorCodes.get(key), (float) 0.5, (float) 0.5)));
+	        	legendPanel.add(label);
+	        }
+	        
+	        add(legendPanel, BorderLayout.SOUTH);
 	    }
 
 	    @Override
@@ -213,12 +239,12 @@ public class UsagePanel extends JPanel {
 	        g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
 
 	        Stroke oldStroke = g2.getStroke();
-	        g2.setColor(lineColor);
 	        g2.setStroke(GRAPH_STROKE);
 	        
 	        sprinklerIterator = graphPoints.keySet().iterator();
 	        while (sprinklerIterator.hasNext()) {
 	        	String key = sprinklerIterator.next();
+	        	g2.setColor(Color.getHSBColor(colorCodes.get(key), (float) 0.5, (float) 0.5));
 	        	List<Point> pointsList = graphPoints.get(key);
 		        for (int i = 0; i < pointsList.size() - 1; i++) {
 		            int x1 = pointsList.get(i).x;
