@@ -17,8 +17,8 @@ import com.hummingbee.system.Thermometer;
 public class MainUI {
 	
 	public static class UserInterface extends JFrame {
-		private static final int WIDTH = 1400;
-		private static final int HEIGHT = 1000;
+		private static final int WIDTH = 1200;
+		private static final int HEIGHT = 700;
 		
 		public UserInterface() {
 			super("User Interface");
