@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -45,8 +47,10 @@ public class ControlPanel extends JPanel {
 		lblTemp.setFont(new Font("Arial", Font.PLAIN, 20));
 		lblTemp.setForeground(Color.WHITE);
 		
-		setBackground(Color.GRAY);
 		
+		setActionListeners();
+		
+		setBackground(Color.GRAY);
 		add(btnUsage);
 		add(btnConfig);
 		add(btnDecTemp);
@@ -58,4 +62,33 @@ public class ControlPanel extends JPanel {
 		return "Temperature: " + degrees + " ºF";
 	}
 	
+	private void setActionListeners(){
+		btnIncTemp.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnIncTemp pressed");
+			}
+		});
+		
+		btnDecTemp.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnDecTemp pressed");
+			}
+		});
+		
+		btnConfig.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnCommit pressed");
+			}
+		});
+		
+		btnUsage.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnUsage pressed");
+			}
+		});
+	}
 }
