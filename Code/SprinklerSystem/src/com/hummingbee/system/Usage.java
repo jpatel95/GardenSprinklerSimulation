@@ -92,13 +92,21 @@ public class Usage {
 	 * @return linked list of past and current day usage, most recent day first
 	 */
 	public static LinkedList<DayUsage> getSprinklerUsage(String sprinklerId, int daysLookback) {
+		// retrieve usages map if the system is starting up
+		if (totalUsages == null) {
+			totalUsages = readTotalUsages();
+		}
+		if (sprinklerUsages == null) {
+			sprinklerUsages = readSprinklerUsages();
+		}
+		
 		LocalDate lookBack = SystemDate.getDate();
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
 		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.get(sprinklerId);
 		Iterator<DayUsage> iterator = sprinklerUsage.iterator();
 		while (daysLookback >= 0 && iterator.hasNext()) {
 			DayUsage dayUsage = iterator.next();
-			if (lookBack == dayUsage.getDay()) {
+			if (lookBack.isEqual(dayUsage.getDay())) {
 				result.add(dayUsage);
 			}
 			

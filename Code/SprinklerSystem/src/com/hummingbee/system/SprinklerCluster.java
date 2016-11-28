@@ -105,21 +105,17 @@ public class SprinklerCluster implements ISprinkler {
 		while (sprinklerIterator.hasNext()) {
 			Sprinkler current = sprinklerIterator.next();
 			LinkedList<DayUsage> sprinklerUsage = current.getUsageHistory(daysLookback);
-			Iterator<DayUsage> usageIterator = sprinklerUsage.iterator();
 			// loop through all days in the sprinkler's lookback history
-			while (usageIterator.hasNext()) {
-				DayUsage day = usageIterator.next();
-				double oldUsage = dailyUsages.containsKey(day.getDay()) ?
-						dailyUsages.get(day.getDay()) : 0;
-				dailyUsages.put(day.getDay(), oldUsage + day.getUsage());
+			for (int i = 0; i < sprinklerUsage.size(); i++) {
+				DayUsage day = sprinklerUsage.get(i);
+				
+				if (result.size() == i) {
+					result.add(new DayUsage(day.getDay(), 0));
+				}
+				
+				DayUsage dayUsage = result.get(i);
+				dayUsage.addUsage(day.getUsage());
 			}
-		}
-		
-		LocalDate[] sortedDays = (LocalDate[]) dailyUsages.keySet().toArray();
-		Arrays.sort(sortedDays);
-		
-		for (int i = 0; i < sortedDays.length; i++) {
-			result.add(new DayUsage(sortedDays[i], dailyUsages.get(sortedDays[i])));
 		}
 		
 		return result;
