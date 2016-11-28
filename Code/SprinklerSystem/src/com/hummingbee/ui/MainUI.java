@@ -27,11 +27,13 @@ public class MainUI {
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
 			
-			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT);
+			//HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 100);
+			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
 			
-			ControlPanel controlPanel = new ControlPanel(WIDTH, HEIGHT);
+			ControlPanel controlPanel = new ControlPanel(WIDTH, 100);
 			
-			container.add(homePanel, BorderLayout.NORTH);
+			//container.add(homePanel, BorderLayout.NORTH); 
+			container.add(usagePanel, BorderLayout.NORTH);
 			container.add(controlPanel, BorderLayout.SOUTH);
 			
 			pack();

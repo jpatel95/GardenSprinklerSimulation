@@ -17,7 +17,7 @@ public class HomePanel extends JPanel {
 	public HomePanel(int width, int height) {
 		super(new BorderLayout());
 		
-		setPreferredSize(new Dimension(width, height - 105));
+		setPreferredSize(new Dimension(width, height));
 		
 		northClusterPanel = new JPanel();
 		eastClusterPanel = new JPanel();
@@ -26,12 +26,12 @@ public class HomePanel extends JPanel {
 		
 		housePanel = new JPanel();
 		
-		northClusterPanel.setPreferredSize(new Dimension(width, height / 5));
+		northClusterPanel.setPreferredSize(new Dimension(width, (int) (height * 0.15)));
 		eastClusterPanel.setPreferredSize(
-				new Dimension(width / 6, (int) (height * (5.0 / 8))));
-		southClusterPanel.setPreferredSize(new Dimension(width, height / 5));
+				new Dimension((int) (width * 0.15), (int) (height * 0.7)));
+		southClusterPanel.setPreferredSize(new Dimension(width, (int) (height * 0.15)));
 		westClusterPanel.setPreferredSize(
-				new Dimension(width / 6, (int) (height * (5.0 / 8))));
+				new Dimension((int) (width * 0.15), (int) (height * 0.7)));
 		
 		northClusterPanel.setBackground(Color.BLUE);
 		eastClusterPanel.setBackground(Color.RED);
