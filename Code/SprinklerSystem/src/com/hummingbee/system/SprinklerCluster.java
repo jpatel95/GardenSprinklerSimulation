@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.hummingbee.enums.Direction;
+
 public class SprinklerCluster implements ISprinkler {
 	// data members
 	// map of sprinkler ids to sprinklers in cluster
@@ -23,6 +25,11 @@ public class SprinklerCluster implements ISprinkler {
 	public SprinklerCluster(String location) {
 		sprinklerMap = new HashMap<String, Sprinkler>();
 		clusterId = location;
+	}
+	
+	public SprinklerCluster(Direction location) {
+		sprinklerMap = new HashMap<String, Sprinkler>();
+		clusterId = location.toString();
 	}
 
 	/**
@@ -98,24 +105,31 @@ public class SprinklerCluster implements ISprinkler {
 		while (sprinklerIterator.hasNext()) {
 			Sprinkler current = sprinklerIterator.next();
 			LinkedList<DayUsage> sprinklerUsage = current.getUsageHistory(daysLookback);
-			Iterator<DayUsage> usageIterator = sprinklerUsage.iterator();
 			// loop through all days in the sprinkler's lookback history
-			while (usageIterator.hasNext()) {
-				DayUsage day = usageIterator.next();
-				double oldUsage = dailyUsages.containsKey(day.getDay()) ?
-						dailyUsages.get(day.getDay()) : 0;
-				dailyUsages.put(day.getDay(), oldUsage + day.getUsage());
+			for (int i = 0; i < sprinklerUsage.size(); i++) {
+				DayUsage day = sprinklerUsage.get(i);
+				
+				if (result.size() == i) {
+					result.add(new DayUsage(day.getDay(), 0));
+				}
+				
+				DayUsage dayUsage = result.get(i);
+				dayUsage.addUsage(day.getUsage());
 			}
 		}
 		
-		LocalDate[] sortedDays = (LocalDate[]) dailyUsages.keySet().toArray();
-		Arrays.sort(sortedDays);
+		return result;
+	}
+	
+	public double getUsage(int daysLookback) {
+		double result = 0;
+		Iterator<DayUsage> iterator = getUsageHistory(daysLookback).iterator();
 		
-		for (int i = 0; i < sortedDays.length; i++) {
-			result.add(new DayUsage(sortedDays[i], dailyUsages.get(sortedDays[i])));
+		while (iterator.hasNext()) {
+			result += iterator.next().getUsage();
 		}
 		
-		return result;
+		return result;	
 	}
 
 	@Override
@@ -146,7 +160,7 @@ public class SprinklerCluster implements ISprinkler {
 	}
 	
 	public void addSprinkler() {
-		Sprinkler sprinkler = new Sprinkler(Integer.toString(nextId));
+		Sprinkler sprinkler = new Sprinkler(clusterId + Integer.toString(nextId));
 		nextId++;
 		
 		sprinklerMap.put(sprinkler.getId(), sprinkler);
@@ -158,5 +172,9 @@ public class SprinklerCluster implements ISprinkler {
 	
 	public Iterator<Sprinkler> getIterator() {
 		return sprinklerMap.values().iterator();
+	}
+	
+	public Sprinkler getSprinkler(String id) {
+		return sprinklerMap.containsKey(id) ? sprinklerMap.get(id) : null;
 	}
 }

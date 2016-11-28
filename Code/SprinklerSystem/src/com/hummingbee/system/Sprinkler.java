@@ -1,11 +1,8 @@
 package com.hummingbee.system;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 /**
  * Sprinkler class defines a single Sprinkler node
@@ -73,7 +70,32 @@ public class Sprinkler implements ISprinkler {
 	}
 	
 	public LinkedList<DayUsage> getUsageHistory(int daysLookback) {
-		return Usage.getSprinklerUsage(id, daysLookback);
+		LinkedList<DayUsage> list = Usage.getSprinklerUsage(id, daysLookback);
+		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
+		int listIndex = 0;
+		for (int i = 0; i < daysLookback; i++) {
+			LocalDate date = SystemDate.getDate().minusDays(i);
+			if (listIndex < list.size() && date.isEqual(list.get(listIndex).getDay())) {
+				result.add(list.get(listIndex));
+				listIndex++;
+			}
+			else {
+				result.add(new DayUsage(date, 0));
+			}
+		}
+		
+		return result;
+	}
+	
+	public double getUsage(int daysLookback) {
+		double result = 0;
+		Iterator<DayUsage> iterator = getUsageHistory(daysLookback).iterator();
+		
+		while (iterator.hasNext()) {
+			result += iterator.next().getUsage();
+		}
+		
+		return result;	
 	}
 	
 	// get sprinkler water flow
