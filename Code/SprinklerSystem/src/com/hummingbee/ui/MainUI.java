@@ -35,6 +35,30 @@ public class MainUI {
 			//container.add(homePanel, BorderLayout.NORTH); 
 			container.add(usagePanel, BorderLayout.NORTH);
 			container.add(controlPanel, BorderLayout.SOUTH);
+
+//			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT);
+//			ControlPanel controlPanel = new ControlPanel(WIDTH, HEIGHT);
+			
+//			container.add(homePanel, BorderLayout.NORTH);
+//			container.add(controlPanel, BorderLayout.SOUTH);
+			
+//			ConfigPanel configPanel = new ConfigPanel(WIDTH, HEIGHT);
+//			container.add(configPanel, BorderLayout.NORTH);
+
+//			SchedulePanel configPanel = new SchedulePanel(WIDTH, HEIGHT);
+//			container.add(configPanel, BorderLayout.NORTH);
+			
+//			ThresholdTempPanel tempControlPanel = new ThresholdTempPanel(WIDTH, HEIGHT);
+//			container.add(tempControlPanel, BorderLayout.NORTH);
+			
+//			SetDayPanel setDayPanel = new SetDayPanel(WIDTH, HEIGHT);
+//			container.add(setDayPanel, BorderLayout.NORTH);
+			
+//			StatusPanel statusPanel = new StatusPanel(WIDTH, HEIGHT);
+//			container.add(statusPanel, BorderLayout.NORTH);
+			
+//			ActivationPanel activationPanel = new ActivationPanel(WIDTH, HEIGHT);
+//			container.add(activationPanel, BorderLayout.NORTH);
 			
 			pack();
 			setLocationRelativeTo(null);
