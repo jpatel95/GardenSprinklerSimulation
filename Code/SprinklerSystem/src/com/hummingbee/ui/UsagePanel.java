@@ -14,6 +14,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,18 +93,26 @@ public class UsagePanel extends JPanel {
 		testTotalUsages.put("SOUTH", 11.0);
 		testTotalUsages.put("WEST", 7.8);
 		
-		LinkedList<DayUsage> usageList = new LinkedList<DayUsage>();
-		usageList.add(new DayUsage(LocalDate.now(), 3.0));
-		usageList.add(new DayUsage(LocalDate.now().minusDays(1), 3.5));
-		usageList.add(new DayUsage(LocalDate.now().minusDays(2), 4.5));
-		usageList.add(new DayUsage(LocalDate.now().minusDays(3), 1.5));
-		usageList.add(new DayUsage(LocalDate.now().minusDays(4), 0.5));
-		usageList.add(new DayUsage(LocalDate.now().minusDays(5), 1.2));
-		testUsageHistory.put("NORTH", usageList);
+		LinkedList<DayUsage> northUsageList = new LinkedList<DayUsage>();
+		northUsageList.add(new DayUsage(LocalDate.now(), 3.0));
+		northUsageList.add(new DayUsage(LocalDate.now().minusDays(1), 3.5));
+		northUsageList.add(new DayUsage(LocalDate.now().minusDays(2), 4.5));
+		northUsageList.add(new DayUsage(LocalDate.now().minusDays(3), 1.5));
+		northUsageList.add(new DayUsage(LocalDate.now().minusDays(4), 0.5));
+		northUsageList.add(new DayUsage(LocalDate.now().minusDays(5), 1.2));
+		testUsageHistory.put("NORTH", northUsageList);
+		LinkedList<DayUsage> eastUsageList = new LinkedList<DayUsage>();
+		eastUsageList.add(new DayUsage(LocalDate.now(), 1.0));
+		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(1), 0.0));
+		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(2), 3.4));
+		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(3), 0.7));
+		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(4), 1.4));
+		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(5), 2.3));
+		testUsageHistory.put("EAST", eastUsageList);
 		
 		
-		BarChart usagesChart = new BarChart(testTotalUsages, (int) (width * 0.7), (int) (height * 0.35));
-		GraphPanel graphPanel = new GraphPanel(testUsageHistory, (int) (width * 0.7), (int) (height * 0.35));
+		BarChart usagesChart = new BarChart(testTotalUsages, (int) (width * 0.7), (int) (height * 0.3));
+		GraphPanel graphPanel = new GraphPanel(testUsageHistory, (int) (width * 0.7), (int) (height * 0.4));
 		
 		add(btnNorthCluster, BorderLayout.NORTH);
 		add(btnEastCluster, BorderLayout.EAST);
@@ -120,7 +129,7 @@ public class UsagePanel extends JPanel {
 		private int width;
 	    private int height;
 	    private int padding = 35;
-	    private int labelPadding = 25;
+	    private int labelPadding = 15;
 	    private Color lineColor = new Color(44, 102, 230, 180);
 	    private Color pointColor = new Color(100, 100, 100, 180);
 	    private Color gridColor = new Color(200, 200, 200, 200);
@@ -128,7 +137,7 @@ public class UsagePanel extends JPanel {
 	    private int pointWidth = 4;
 	    private int numberYDivisions = 10;
 	    private HashMap<String, LinkedList<DayUsage>> usages;
-	    private HashMap<String, Float> colorCodes;
+	    private HashMap<String, Color> colorCodes;
 	    private JPanel legendPanel;
 
 	    public GraphPanel(HashMap<String, LinkedList<DayUsage>> usages, int width, int height) {
@@ -142,15 +151,14 @@ public class UsagePanel extends JPanel {
 	        title.setHorizontalAlignment(JLabel.CENTER);
 	        add(title, BorderLayout.NORTH);
 	        
-	        colorCodes = new HashMap<String, Float>();
+	        colorCodes = new HashMap<String, Color>();
+	        
 	        Iterator<String> iterator = usages.keySet().iterator();
+	        int hue = 0;
 	        while (iterator.hasNext()) {
 	        	String key = iterator.next();
-	        	float hue = (float) Math.random();
-	        	while (colorCodes.values().contains(hue)) {
-	        		hue = (float) Math.random();
-	        	}
-	        	colorCodes.put(key, hue);
+	        	colorCodes.put(key, new Color(hue));
+	        	hue += (360 / usages.size());
 	        }
 	        
 	        legendPanel = new JPanel();
@@ -159,7 +167,7 @@ public class UsagePanel extends JPanel {
 	        while (iterator.hasNext()) {
 	        	String key = iterator.next();
 	        	JLabel label = new JLabel(key);
-	        	label.setBorder(BorderFactory.createLineBorder(Color.getHSBColor(colorCodes.get(key), (float) 0.5, (float) 0.5)));
+	        	label.setBorder(BorderFactory.createLineBorder(colorCodes.get(key)));
 	        	legendPanel.add(label);
 	        }
 	        
@@ -244,7 +252,7 @@ public class UsagePanel extends JPanel {
 	        sprinklerIterator = graphPoints.keySet().iterator();
 	        while (sprinklerIterator.hasNext()) {
 	        	String key = sprinklerIterator.next();
-	        	g2.setColor(Color.getHSBColor(colorCodes.get(key), (float) 0.5, (float) 0.5));
+	        	g2.setColor(colorCodes.get(key));
 	        	List<Point> pointsList = graphPoints.get(key);
 		        for (int i = 0; i < pointsList.size() - 1; i++) {
 		            int x1 = pointsList.get(i).x;
@@ -274,13 +282,6 @@ public class UsagePanel extends JPanel {
 
 	    private double getMinUsage() {
 	        double minScore = 0;
-//	        Iterator<String> iterator = usages.keySet().iterator();
-//	        while (iterator.hasNext()) {
-//	        	String key = iterator.next();
-//		        for (DayUsage dayUsage : usages.get(key)) {
-//		            minScore = Math.min(minScore, dayUsage.getUsage());
-//		        }
-//	        }
 	        return minScore;
 	    }
 
@@ -318,103 +319,288 @@ public class UsagePanel extends JPanel {
 		
 	}
 	
-	class BarChart extends JPanel {
-		private BarPanel barsPanel;
-		private JPanel labelsPanel;
-		private JLabel lblTitle;
-		
-		public BarChart(HashMap<String, Double> usages, int width, int height) {
-			super(new BorderLayout());
-			setPreferredSize(new Dimension(width, height));
-			setBackground(Color.WHITE);
-			
-			int spaceBetweenBars = 20;
-			int barPanelWidth = width - 200;
-			int barPanelHeight = height;
-			int barWidth = (barPanelWidth - (spaceBetweenBars * (usages.size() - 1))) / usages.size();
-
-			labelsPanel = new JPanel();
-			lblTitle = new JLabel("Total Water Usage");
-			lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
-			lblTitle.setHorizontalAlignment(JLabel.CENTER);
-			labelsPanel.setBackground(Color.WHITE);
-			
-			int scale = 1;
-			double max = -1;
-			Iterator<String> keyIterator = usages.keySet().iterator();
-			
-			while (keyIterator.hasNext()) {
-				String key = keyIterator.next();
-				double value = usages.get(key);
-				if (value > max) {
-					max = value;
-				}
-				
-				JLabel label = new JLabel(key);
-				label.setPreferredSize(new Dimension(barWidth + spaceBetweenBars, 20));
-				//label.setHorizontalAlignment(JLabel.CENTER);
-				labelsPanel.add(label);
-			}
-			if (max > 0) {
-				scale = (int) ((barPanelHeight / max) - 4);
-			}
-			
-			barsPanel = new BarPanel(barPanelWidth, barPanelHeight, scale, spaceBetweenBars, barWidth, usages);
-			
-			add(lblTitle, BorderLayout.NORTH);
-			add(barsPanel, BorderLayout.CENTER);
-			add(labelsPanel, BorderLayout.SOUTH);
-		}
-		
-		class BarPanel extends JPanel {
-			int width;
-			int height;
-			int scale;
-			int spaceBetweenBars;
-			int barWidth;
-			HashMap<String, Double> usages;
-			
-			public BarPanel(int width, int height, int scale, int spaceBetweenBars, int barWidth, HashMap<String, Double> usages) {
-				super();
-				setPreferredSize(new Dimension(width, height));
-				
-				this.width = width;
-				this.height = height;
-				this.scale = scale;
-				this.spaceBetweenBars = spaceBetweenBars;
-				this.usages = usages;
-				this.barWidth = barWidth;
-				
-				setBackground(Color.WHITE);
-			}
-			
-			public void paintComponent(Graphics gp) {
-				super.paintComponent(gp);
-				
-				Graphics2D g = (Graphics2D) gp;
-				drawBars(g);
-			}
-			
-			private void drawBars(Graphics2D g) {
-				Iterator<String> iterator = usages.keySet().iterator();
-				int barStart = 20;
-				
-				while (iterator.hasNext()) {
-					g.setPaint(Color.CYAN);
-					String key = iterator.next();
-					double data = usages.get(key);
-					int barHeight = (int) ((data + 0.5) * scale);
-					g.fillRect(barStart, height - barHeight, barWidth, barHeight);
-					g.setPaint(Color.BLACK);
-					g.setFont(new Font("Arial", Font.PLAIN, 15));
-					g.drawString(Double.toString(data) + " Gallons", barStart + (barWidth / 4), 20);
-					barStart += (barWidth + spaceBetweenBars);
-				}
-				
-			}
-			
-		}
-		
+	public class BarChart extends JPanel {
+		 
+	    //offsets (padding of actual chart to its border)
+	    int leftOffset = 30;
+	    int topOffset = 30;
+	    int bottomOffset = 30;
+	    int rightOffset = 30;
+	 
+	    //height of X labels (must be significantly smaller than bottomOffset)
+	    int xLabelOffset = 25; 
+	    //width of Y labels (must be significantly smaller than leftOffset)
+	    int yLabelOffset = 15; 
+	 
+	    //tick widths
+	    int majorTickWidth = 10;
+	    int secTickWidth = 5;
+	    int minorTickWidth = 2;
+	 
+	    String xAxis = "";
+	    String yAxisStr = "Gallons";
+	    String title = "Total Usage";
+	 
+	    int width; //total width of the component
+	    int height; //total height of the component
+	 
+	    Color textColor = Color.BLACK;
+	    Color backgroundColor = Color.WHITE;
+	 
+	    Font textFont = new Font("Arial", Font.BOLD, 20);
+	    Font yFont = new Font("Arial", Font.PLAIN, 12);
+	    Font xFont = new Font("Arial", Font.BOLD, 12);
+	    Font titleFont = new Font("Arial", Font.BOLD, 18);
+	 
+	    Font yCatFont = new Font("Arial", Font.BOLD, 12);
+	    Font xCatFont = new Font("Arial", Font.BOLD, 12);
+	 
+	    ArrayList<Bar> bars;
+	    Axis yAxis;
+	    int barWidth = 10;
+	 
+	    BarChart(HashMap<String, Double> usages, int width, int height) {
+	    	setPreferredSize(new Dimension(width, height));
+	    	bars = new ArrayList<Bar>();
+	    	Iterator<String> keyIterator = usages.keySet().iterator();
+	    	
+	    	double maxValue = Double.MIN_VALUE;
+	    	
+	    	while (keyIterator.hasNext()) {
+	    		String key = keyIterator.next();
+	    		double usage = usages.get(key);
+	    		
+	    		maxValue = Math.max(usage, maxValue);
+	    		
+	    		bars.add(new Bar((int) (usage + 0.5), Color.CYAN, key));
+	    	}
+	    	
+	    	int max = (int) (maxValue + 0.5) + 2;
+	    	yAxis = new Axis(max, 0, max / 4, 0, 0, "Gallons");
+	    	this.yAxisStr = yAxis.yLabel;
+	        this.width = width;
+	        this.height = height;
+	    }
+	 
+	    @Override
+	    protected void paintComponent(Graphics g) {
+	 
+	        Graphics2D g2d = (Graphics2D) g;
+	        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
+	                RenderingHints.VALUE_ANTIALIAS_ON);
+	 
+	        g.drawRect(0, 0, width, height);
+	        g2d.setColor(backgroundColor);
+	        g.fillRect(0, 0, width, height);
+	        g2d.setColor(Color.BLACK);
+	 
+	        int heightChart = height - (topOffset + bottomOffset);
+	        int widthChart = width - (leftOffset + rightOffset);
+	 
+	        //left
+	        g.drawLine(leftOffset, topOffset, leftOffset, heightChart + topOffset);
+	 
+	        //bottom
+	        g.drawLine(leftOffset, heightChart + topOffset, leftOffset + widthChart, heightChart + topOffset);
+	 
+	        if (this.yAxis.primaryIncrements != 0)
+	            drawTick(heightChart, this.yAxis.primaryIncrements, g, Color.BLACK, majorTickWidth);
+	        if (this.yAxis.secondaryIncrements != 0)
+	            drawTick(heightChart, this.yAxis.secondaryIncrements, g, Color.BLACK, secTickWidth);
+	        if (this.yAxis.tertiaryIncrements != 0)
+	            drawTick(heightChart, this.yAxis.tertiaryIncrements, g, Color.BLACK, minorTickWidth);
+	 
+	        drawYLabels(heightChart, this.yAxis.primaryIncrements, g, Color.BLACK);
+	 
+	        drawBars(heightChart, widthChart, g);
+	 
+	        drawLabels(heightChart, widthChart, g);
+	    }
+	 
+	    private void drawTick(int heightChart, int increment, Graphics g, Color c, int tickWidth) {
+	 
+	        int incrementNo = yAxis.maxValue / increment;
+	 
+	        double factor = ((double) heightChart / (double) yAxis.maxValue);
+	 
+	        double incrementInPixel = (double) (increment * factor);
+	 
+	        g.setColor(c);
+	 
+	        for (int i = 0; i <= incrementNo; i++) {
+	            int fromTop = heightChart + topOffset - (int) (i * incrementInPixel);
+	            g.drawLine(leftOffset, fromTop, leftOffset + tickWidth, fromTop);
+	        }
+	    }
+	 
+	    private void drawYLabels(int heightChart, int increment, Graphics g, Color c) {
+	 
+	        int incrementNo = yAxis.maxValue / increment;
+	 
+	        double factor = ((double) heightChart / (double) yAxis.maxValue);
+	 
+	        int incrementInPixel = (int) (increment * factor);
+	 
+	        g.setColor(c);
+	        FontMetrics fm = getFontMetrics(yCatFont);
+	 
+	        for (int i = 0; i <= incrementNo; i++) {
+	            int fromTop = heightChart + topOffset - (i * incrementInPixel);
+	 
+	            String yLabel = "" + (i * increment);
+	 
+	            int widthStr = fm.stringWidth(yLabel);
+	            int heightStr = fm.getHeight();
+	 
+	            g.setFont(yCatFont);
+	            g.drawString(yLabel, (leftOffset - yLabelOffset) + (yLabelOffset/2 - widthStr/2), fromTop + (heightStr / 2));
+	        }
+	    }
+	 
+	    private void drawBars(int heightChart, int widthChart, Graphics g) {
+	 
+	        int i = 0;
+	        int barNumber = bars.size();
+	 
+	        int pointDistance = (int) (widthChart / (barNumber + 1));
+	 
+	        for (Bar bar : bars) {
+	 
+	            i++;
+	 
+	            double factor = ((double) heightChart / (double) yAxis.maxValue);
+	 
+	            int scaledBarHeight = (int) (bar.value * factor);
+	 
+	            int j = topOffset + heightChart - scaledBarHeight;
+	 
+	            g.setColor(bar.color);
+	            g.fillRect(leftOffset + (i * pointDistance) - (barWidth / 2), j, barWidth, scaledBarHeight);
+	 
+	            //draw tick
+	            g.drawLine(leftOffset + (i * pointDistance),
+	                    topOffset + heightChart,
+	                    leftOffset + (i * pointDistance),
+	                    topOffset + heightChart + 2);
+	 
+	            FontMetrics fm = getFontMetrics(xCatFont);
+	            int widthStr = fm.stringWidth(bar.name);
+	            int heightStr = fm.getHeight();
+	 
+	            g.setFont(xCatFont);
+	            g.setColor(Color.BLACK);
+	 
+	            int xPosition = leftOffset + (i * pointDistance) - (widthStr / 2);
+	            int yPosition = topOffset + heightChart + xLabelOffset - heightStr/2;
+	 
+	            //draw tick
+	            g.drawString(bar.name, xPosition, yPosition);
+	        }
+	    }
+	 
+	    private void drawLabels(int heightChart, int widthChart, Graphics g) {
+	 
+	        Graphics2D g2d = (Graphics2D)g;
+	 
+	        AffineTransform oldTransform = g2d.getTransform();
+	 
+	        FontMetrics fmY = getFontMetrics(yFont);
+	        int yAxisStringWidth = fmY.stringWidth(yAxisStr);
+	        int yAxisStringHeight = fmY.getHeight();
+	 
+	        FontMetrics fmX = getFontMetrics(xFont);
+	        int xAxisStringWidth = fmX.stringWidth(yAxisStr);
+	        int xAxisStringHeight = fmX.getHeight();
+	 
+	        FontMetrics fmT = getFontMetrics(titleFont);
+	        int titleStringWidth = fmT.stringWidth(title);
+	        int titleStringHeight = fmT.getHeight();
+	 
+	        g2d.setColor(Color.BLACK);
+	        //draw tick
+	        g2d.rotate(Math.toRadians(270)); //rotates to above out of screen.
+	 
+	        int translateDown = -leftOffset -(topOffset + heightChart/2 + yAxisStringWidth/2);
+	 
+	        //starts off being "topOffset" off, so subtract that first
+	        int translateLeft = -topOffset + (leftOffset-yLabelOffset)/2 + yAxisStringHeight/2;
+	 
+	        //pull down, which is basically the left offset, topOffset, then middle it by 
+	        //usin chart height and using text height.
+	        g2d.translate(translateDown, translateLeft);
+	 
+	        g2d.setFont(yFont);
+	        g2d.drawString(yAxisStr, leftOffset, topOffset);
+	 
+	        //reset
+	        g2d.setTransform(oldTransform);
+	 
+	        int xAxesLabelHeight = bottomOffset - xLabelOffset;
+	 
+	        //x label        
+	        g2d.setFont(xFont);
+	        g2d.drawString(xAxis, widthChart/2 + leftOffset - xAxisStringWidth/2, topOffset + heightChart + xLabelOffset + xAxesLabelHeight/2);
+	 
+	                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
+	                RenderingHints.VALUE_ANTIALIAS_ON);
+	        //title
+	        g2d.setFont(titleFont);
+	        int titleX = (leftOffset + rightOffset + widthChart)/2 - titleStringWidth/2;
+	        int titleY = topOffset/2 + titleStringHeight/2;
+	        System.out.println("titleStringHeight " + titleStringHeight);
+	        System.out.println("titleX " + titleX);
+	        System.out.println("titleY " + titleY);
+	        System.out.println("topOffset " + topOffset);
+	 
+	        g2d.drawString(title, titleX, titleY);
+	    }
 	}
 	
+	public class Bar {
+	 
+	    double value; 
+	    Color color;
+	    String name;
+	 
+	    Bar(int value, Color color, String name) {
+	        this.value = value;
+	        this.color = color;
+	        this.name = name;
+	    }
+	}
+	
+	
+	public class Axis {
+	 
+	    int primaryIncrements = 0; 
+	    int secondaryIncrements = 0;
+	    int tertiaryIncrements = 0;
+	 
+	    int maxValue = 100;
+	    int minValue = 0;
+	 
+	    String yLabel;
+	 
+	    Axis(String name) {
+	        this(100, 0, 50, 10, 5, name);
+	    }
+	 
+	    Axis(int primaryIncrements, int secondaryIncrements, int tertiaryIncrements, String name) {
+	        this(100, 0, primaryIncrements, secondaryIncrements, tertiaryIncrements, name);
+	    }
+	 
+	    Axis(Integer maxValue, Integer minValue, int primaryIncrements, int secondaryIncrements, int tertiaryIncrements, String name) {
+	 
+	        this.maxValue = maxValue; 
+	        this.minValue = minValue;
+	        this.yLabel = name;
+	 
+	        if (primaryIncrements != 0)
+	            this.primaryIncrements = primaryIncrements; 
+	        if (secondaryIncrements != 0)
+	            this.secondaryIncrements = secondaryIncrements;
+	        if (tertiaryIncrements != 0)
+	            this.tertiaryIncrements = tertiaryIncrements;
+	    }
+	}	
 }
