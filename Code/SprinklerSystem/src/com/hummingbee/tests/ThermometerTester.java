@@ -9,7 +9,7 @@ public class ThermometerTester {
 	}
 	
 	public static void testThermometer(){
-		Thermometer t1 = Thermometer.getInstance();
+		Thermometer t1 = new Thermometer();
 		System.out.println(t1);
 		t1.decrementTemperature();
 		System.out.println(t1);

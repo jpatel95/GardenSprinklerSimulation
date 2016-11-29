@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.hummingbee.ui.MainUI.UserInterface;
+
 public class ConfigPanel extends JPanel{
 	private static final int BUTTON_WIDTH = 150;
 	private static final int BUTTON_HEIGHT = 50;
@@ -37,7 +39,7 @@ public class ConfigPanel extends JPanel{
 		btnActivation = new JButton("Activation");
 		btnStatus = new JButton("Status");
 		
-		btnBack = new JButton("Back");
+		//btnBack = new JButton("Back");
 		
 		btnSetDay.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnSetSchedule.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -47,7 +49,7 @@ public class ConfigPanel extends JPanel{
 		btnActivation.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnStatus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		
-		btnBack.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		//btnBack.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		
 		btnSetDay.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnSetSchedule.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -58,7 +60,7 @@ public class ConfigPanel extends JPanel{
 		btnStatus.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		
-		btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
+		//btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		setBackground(Color.GRAY);
 		
@@ -72,7 +74,7 @@ public class ConfigPanel extends JPanel{
 		add(btnActivation);
 		add(btnStatus);
 		
-		add(btnBack);
+		//add(btnBack);
 	}
 	
 	private void setActionListeners(){
@@ -119,12 +121,11 @@ public class ConfigPanel extends JPanel{
 			}		
 		});
 		
-		btnBack.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnBack Pressed");
-				
-			}		
-		});
+//		btnBack.addActionListener(new ActionListener(){
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				UserInterface.clearContainer();
+//			}		
+//		});
 	}
 }

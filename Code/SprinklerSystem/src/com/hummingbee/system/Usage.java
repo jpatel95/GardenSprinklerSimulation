@@ -102,7 +102,9 @@ public class Usage {
 		
 		LocalDate lookBack = SystemDate.getDate();
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
-		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.get(sprinklerId);
+		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.containsKey(sprinklerId) ?
+				sprinklerUsages.get(sprinklerId) : new LinkedList<DayUsage>();
+				
 		Iterator<DayUsage> iterator = sprinklerUsage.iterator();
 		while (daysLookback >= 0 && iterator.hasNext()) {
 			DayUsage dayUsage = iterator.next();

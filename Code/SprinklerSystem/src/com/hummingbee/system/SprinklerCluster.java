@@ -13,23 +13,23 @@ public class SprinklerCluster implements ISprinkler {
 	// map of sprinkler ids to sprinklers in cluster
 	private HashMap<String, Sprinkler> sprinklerMap;
 	// sprinkler cluster location
-	private String clusterId;
+	private Direction clusterId;
 	// next sprinkler id
-	private static int nextId = 1;
+	private static HashMap<Direction, Integer> nextId;
 	
 	public SprinklerCluster() {
 		sprinklerMap = new HashMap<String, Sprinkler>();
 		clusterId = null;
 	}
 	
-	public SprinklerCluster(String location) {
-		sprinklerMap = new HashMap<String, Sprinkler>();
-		clusterId = location;
-	}
-	
 	public SprinklerCluster(Direction location) {
 		sprinklerMap = new HashMap<String, Sprinkler>();
-		clusterId = location.toString();
+		clusterId = location;
+		nextId = new HashMap<Direction, Integer>();
+		nextId.put(Direction.NORTH, 1);
+		nextId.put(Direction.EAST, 1);
+		nextId.put(Direction.SOUTH, 1);
+		nextId.put(Direction.WEST, 1);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class SprinklerCluster implements ISprinkler {
 
 	@Override
 	public String getId() {
-		return clusterId;
+		return clusterId.toString();
 	}
 
 	/**
@@ -160,8 +160,9 @@ public class SprinklerCluster implements ISprinkler {
 	}
 	
 	public void addSprinkler() {
-		Sprinkler sprinkler = new Sprinkler(clusterId + Integer.toString(nextId));
-		nextId++;
+		int id = nextId.get(clusterId);
+		Sprinkler sprinkler = new Sprinkler(clusterId.toString() + id);
+		nextId.put(clusterId, id++);
 		
 		sprinklerMap.put(sprinkler.getId(), sprinkler);
 	}

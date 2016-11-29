@@ -36,7 +36,7 @@ public class ControlPanel extends JPanel {
 		btnConfig = new JButton("Config");
 		btnUsage = new JButton("View Usage");
 		
-		lblTemp = new JLabel(getTemperatureFormatter(Garden.getTemperature()));
+		lblTemp = new JLabel(getTemperatureFormatter(Garden.getInstance().getTemperature()));
 		
 		btnIncTemp.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnDecTemp.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -70,34 +70,31 @@ public class ControlPanel extends JPanel {
 		btnIncTemp.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnIncTemp pressed");
-				Garden.incrementTemperature();
-				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
+				Garden.getInstance().incrementTemperature();
+				lblTemp.setText(getTemperatureFormatter(Garden.getInstance().getTemperature()));
 			}
 		});
 		
 		btnDecTemp.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnDecTemp pressed");
-				Garden.decrementTemperature();
-				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
+				Garden.getInstance().decrementTemperature();
+				lblTemp.setText(getTemperatureFormatter(Garden.getInstance().getTemperature()));
 			}
 		});
 		
 		btnConfig.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnConfig pressed");
 				UserInterface.clearContainer();
-				UserInterface.addToContainer(new ConfigPanel(width, height), BorderLayout.CENTER);
+				UserInterface.addToContainer(new ConfigPanel(UserInterface.getUIWidth(), UserInterface.getUIHeight() - 100), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}
 		});
 		
 		btnUsage.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnUsage pressed");
 				UserInterface.clearContainer();
 				UserInterface.addToContainer(new UsagePanel(UserInterface.getUIWidth(), UserInterface.getUIHeight() - 100), BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);

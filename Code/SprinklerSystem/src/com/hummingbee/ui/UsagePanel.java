@@ -29,7 +29,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.hummingbee.enums.Direction;
 import com.hummingbee.system.DayUsage;
+import com.hummingbee.system.Garden;
+import com.hummingbee.system.Sprinkler;
+import com.hummingbee.system.SprinklerCluster;
 import com.hummingbee.system.SystemDate;
 
 public class UsagePanel extends JPanel {
@@ -41,10 +45,16 @@ public class UsagePanel extends JPanel {
 	
 	private JPanel usages;
 	
+	private int width;
+	private int height;
+	
 	public UsagePanel(int width, int height) {
 		super(new BorderLayout());
 		
 		setPreferredSize(new Dimension(width, height));
+		
+		this.width = width;
+		this.height = height;
 		
 		btnNorthCluster = new JButton("View North Cluster Usage");
 		btnEastCluster = new JButton("<html>View East<br>Cluster Usage</html>");
@@ -65,26 +75,7 @@ public class UsagePanel extends JPanel {
 		btnSouthCluster.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnWestCluster.setFont(new Font("Arial", Font.PLAIN, 20));
 		
-		btnNorthCluster.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnEastCluster.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnSouthCluster.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnWestCluster.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+		addActionListeners();
 		
 		HashMap<String, Double> testTotalUsages = new HashMap<String, Double>();
 		HashMap<String, LinkedList<DayUsage>> testUsageHistory = new HashMap<String, LinkedList<DayUsage>>();
@@ -123,6 +114,74 @@ public class UsagePanel extends JPanel {
 		usages.add(usagesChart, BorderLayout.SOUTH);
 		
 		add(usages, BorderLayout.CENTER);
+	}
+	
+	private void addActionListeners() {
+		btnNorthCluster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawGraphs(Direction.NORTH);
+			}
+		});
+		btnEastCluster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawGraphs(Direction.EAST);
+			}
+		});
+		btnSouthCluster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawGraphs(Direction.SOUTH);
+			}
+		});
+		btnWestCluster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawGraphs(Direction.WEST);
+			}
+		});
+	}
+	
+	private void drawGraphs(Direction direction) {
+		HashMap<String, Double> totalUsages = new HashMap<String, Double>();
+		HashMap<String, LinkedList<DayUsage>> usageHistory = new HashMap<String, LinkedList<DayUsage>>();
+		
+		SprinklerCluster northCluster = Garden.getInstance().getCluster(direction);
+		Iterator<Sprinkler> iterator = northCluster.getIterator();
+		
+		boolean usagesRecorded = false;
+		
+		while (iterator.hasNext()) {
+			Sprinkler sprinkler = iterator.next();
+			double usage = sprinkler.getTotalUsage();
+			
+			if (usage > 0) {
+				usagesRecorded = true;
+			}
+			
+			totalUsages.put(sprinkler.getId(), usage);
+			usageHistory.put(sprinkler.getId(), sprinkler.getUsageHistory(7));
+		}
+		
+		remove(usages);
+		
+		usages = new JPanel(new BorderLayout());
+		
+		if (!usagesRecorded) {
+			JLabel label = new JLabel("No Usages recorded for this cluster");
+			label.setFont(new Font("Arial", Font.PLAIN, 20));
+			label.setHorizontalAlignment(JLabel.CENTER);
+			usages.add(label, BorderLayout.CENTER);
+			usages.setBackground(Color.WHITE);
+		}
+		else {
+			BarChart usagesChart = new BarChart(totalUsages, (int) (width * 0.7), (int) (height * 0.3));
+			GraphPanel graphPanel = new GraphPanel(usageHistory, (int) (width * 0.7), (int) (height * 0.4));
+			
+			usages.add(graphPanel, BorderLayout.NORTH);
+			usages.add(usagesChart, BorderLayout.SOUTH);
+		}
+		
+		add(usages, BorderLayout.CENTER);
+		revalidate();
+		repaint();
 	}
 	
 	class GraphPanel extends JPanel {
@@ -547,10 +606,6 @@ public class UsagePanel extends JPanel {
 	        g2d.setFont(titleFont);
 	        int titleX = (leftOffset + rightOffset + widthChart)/2 - titleStringWidth/2;
 	        int titleY = topOffset/2 + titleStringHeight/2;
-	        System.out.println("titleStringHeight " + titleStringHeight);
-	        System.out.println("titleX " + titleX);
-	        System.out.println("titleY " + titleY);
-	        System.out.println("topOffset " + topOffset);
 	 
 	        g2d.drawString(title, titleX, titleY);
 	    }
