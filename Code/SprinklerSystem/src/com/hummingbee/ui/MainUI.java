@@ -17,8 +17,8 @@ import com.hummingbee.system.Thermometer;
 public class MainUI {
 	
 	public static class UserInterface extends JFrame {
-		private static final int WIDTH = 1200;
-		private static final int HEIGHT = 700;
+		private static final int WIDTH = 1400;
+		private static final int HEIGHT = 1000;
 		private static UserInterface ui = null;
 		private static Garden garden = null;
 		
@@ -31,7 +31,7 @@ public class MainUI {
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
 			
-			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 70);			
+			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 100);
 			ControlPanel controlPanel = new ControlPanel(WIDTH, 100);
 
 			container.add(homePanel, BorderLayout.NORTH); 

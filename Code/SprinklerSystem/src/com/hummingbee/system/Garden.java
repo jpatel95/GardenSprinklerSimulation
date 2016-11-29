@@ -12,84 +12,101 @@ public class Garden {
 		Thermometer.getInstance();
 	}
 	
-	public static SprinklerCluster getNorthCluster() {
-		if (northCluster == null) {
-			northCluster = new SprinklerCluster(Direction.NORTH);
-			for (int i = 0; i < 3; i++) {
-				northCluster.addSprinkler();
+	public static SprinklerCluster getCluster(Direction direction) {
+		SprinklerCluster result;
+		switch (direction) {
+		case NORTH :
+			if (northCluster == null) {
+				northCluster = new SprinklerCluster(Direction.NORTH);
+				for (int i = 0; i < 3; i++) {
+					northCluster.addSprinkler();
+				}
 			}
-		}
-		return northCluster;
-	}
-	public static SprinklerCluster getEastCluster() {
-		if (eastCluster == null) {
-			eastCluster = new SprinklerCluster(Direction.EAST);
-			for (int i = 0; i < 3; i++) {
-				eastCluster.addSprinkler();
+			result = northCluster;
+			break;
+		case EAST :
+			if (eastCluster == null) {
+				eastCluster = new SprinklerCluster(Direction.EAST);
+				for (int i = 0; i < 3; i++) {
+					eastCluster.addSprinkler();
+				}
 			}
-		}
-		return eastCluster;
-	}
-	public static SprinklerCluster getSouthCluster() {
-		if (southCluster == null) {
-			southCluster = new SprinklerCluster(Direction.SOUTH);
-			for (int i = 0; i < 3; i++) {
-				southCluster.addSprinkler();
+			result = eastCluster;
+			break;
+		case SOUTH :
+			if (southCluster == null) {
+				southCluster = new SprinklerCluster(Direction.SOUTH);
+				for (int i = 0; i < 3; i++) {
+					southCluster.addSprinkler();
+				}
 			}
-		}
-		return southCluster;
-	}
-	public static SprinklerCluster getWestCluster() {
-		if (westCluster == null) {
-			westCluster = new SprinklerCluster(Direction.WEST);
-			for (int i = 0; i < 3; i++) {
-				westCluster.addSprinkler();
+			result = southCluster;
+			break;
+		default :
+			if (westCluster == null) {
+				westCluster = new SprinklerCluster(Direction.WEST);
+				for (int i = 0; i < 3; i++) {
+					westCluster.addSprinkler();
+				}
 			}
-		}
-		return westCluster;
-	}
-	
-	public static double getNorthClusterUsage(int dayLookback) {
-		if (northCluster == null) {
-			getNorthCluster();
+			result = westCluster;
 		}
 		
-		return northCluster.getUsage(dayLookback);
+		return result;
 	}
 	
-	public static double getEastClusterUsage(int dayLookback) {
-		if (eastCluster == null) {
-			getEastCluster();
+	public static double getTotalClusterUsage(Direction direction) {
+		double result;
+		switch (direction) {
+		case NORTH :
+			if (northCluster == null) {
+				northCluster = new SprinklerCluster(Direction.NORTH);
+				for (int i = 0; i < 3; i++) {
+					northCluster.addSprinkler();
+				}
+			}
+			result = northCluster.getTotalUsage();
+			break;
+		case EAST :
+			if (eastCluster == null) {
+				eastCluster = new SprinklerCluster(Direction.EAST);
+				for (int i = 0; i < 3; i++) {
+					eastCluster.addSprinkler();
+				}
+			}
+			result = eastCluster.getTotalUsage();
+			break;
+		case SOUTH :
+			if (southCluster == null) {
+				southCluster = new SprinklerCluster(Direction.SOUTH);
+				for (int i = 0; i < 3; i++) {
+					southCluster.addSprinkler();
+				}
+			}
+			result = southCluster.getTotalUsage();
+			break;
+		default :
+			if (westCluster == null) {
+				westCluster = new SprinklerCluster(Direction.WEST);
+				for (int i = 0; i < 3; i++) {
+					westCluster.addSprinkler();
+				}
+			}
+			result = westCluster.getTotalUsage();
 		}
 		
-		return eastCluster.getUsage(dayLookback);
-	}
-	
-	public static double getSouthClusterUsage(int dayLookback) {
-		if (southCluster == null) {
-			getSouthCluster();
-		}
-		
-		return southCluster.getUsage(dayLookback);
-	}
-	
-	public static double getWestClusterUsage(int dayLookback) {
-		if (westCluster == null) {
-			getWestCluster();
-		}
-		
-		return westCluster.getUsage(dayLookback);
+		return result;
 	}
 	
 	public static double getTemperature() {
 		return Thermometer.getInstance().getTemperature();
 	}
 	
-	public void incrementTemperature() {
+	public static void incrementTemperature() {
 		Thermometer.getInstance().incrementTemperature();
 	}
 	
-	public void decrementTemperature() {
+	public static void decrementTemperature() {
 		Thermometer.getInstance().decrementTemperature();
 	}
 }
