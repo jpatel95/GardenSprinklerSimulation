@@ -7,6 +7,10 @@ public class Garden {
 	private static SprinklerCluster eastCluster = null;
 	private static SprinklerCluster southCluster = null;
 	private static SprinklerCluster westCluster = null;
+
+	public Garden() {
+		Thermometer.getInstance();
+	}
 	
 	public static SprinklerCluster getNorthCluster() {
 		if (northCluster == null) {
@@ -81,11 +85,11 @@ public class Garden {
 		return Thermometer.getInstance().getTemperature();
 	}
 	
-	public static void incrementTemperature() {
+	public void incrementTemperature() {
 		Thermometer.getInstance().incrementTemperature();
 	}
 	
-	public static void decrementTemperature() {
+	public void decrementTemperature() {
 		Thermometer.getInstance().decrementTemperature();
 	}
 }

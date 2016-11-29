@@ -20,10 +20,13 @@ public class MainUI {
 		private static final int WIDTH = 1200;
 		private static final int HEIGHT = 700;
 		private static UserInterface ui = null;
+		private static Garden garden = null;
 		
 		private UserInterface() {
 			super("User Interface");
 			setPreferredSize(new Dimension(WIDTH, HEIGHT));
+			
+			garden = new Garden();
 			
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
@@ -68,6 +71,9 @@ public class MainUI {
 			return ui;
 		}
 		
+		public Garden getGarden(){
+			return garden;
+		}
 		
 		public void clearContainer(){
 			getContentPane().removeAll();

@@ -71,6 +71,8 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnIncTemp pressed");
+				UserInterface.getInstance().getGarden().incrementTemperature();
+				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
 			}
 		});
 		
@@ -78,15 +80,17 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnDecTemp pressed");
+				UserInterface.getInstance().getGarden().decrementTemperature();
+				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
 			}
 		});
 		
 		btnConfig.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnConfig pressed");	
+				System.out.println("btnConfig pressed");
 				UserInterface.getInstance().clearContainer();
-				UserInterface.getInstance().addToContainer(new ConfigPanel(width, height), BorderLayout.NORTH);
+				UserInterface.getInstance().addToContainer(new ConfigPanel(width, height), BorderLayout.CENTER);
 			}
 		});
 		
@@ -95,8 +99,8 @@ public class ControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnUsage pressed");
 				UserInterface.getInstance().clearContainer();
-				UserInterface.getInstance().addToContainer(new UsagePanel(width, height-100), BorderLayout.NORTH);
-				UserInterface.getInstance().addToContainer(new ControlPanel(width, 100), BorderLayout.CENTER);
+				UserInterface.getInstance().addToContainer(new UsagePanel(width, height-100), BorderLayout.CENTER);
+				UserInterface.getInstance().addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}
 		});
 	}
