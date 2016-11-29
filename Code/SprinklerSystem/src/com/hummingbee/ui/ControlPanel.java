@@ -63,7 +63,7 @@ public class ControlPanel extends JPanel {
 	}
 	
 	private static String getTemperatureFormatter(double degrees) {
-		return "Temperature: " + degrees + " ÂºF";
+		return "Temperature: " + degrees + " °F";
 	}
 	
 	private void setActionListeners(){
@@ -71,7 +71,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnIncTemp pressed");
-				UserInterface.getInstance().getGarden().incrementTemperature();
+				Garden.incrementTemperature();
 				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
 			}
 		});
@@ -80,7 +80,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnDecTemp pressed");
-				UserInterface.getInstance().getGarden().decrementTemperature();
+				Garden.decrementTemperature();
 				lblTemp.setText(getTemperatureFormatter(Garden.getTemperature()));
 			}
 		});
