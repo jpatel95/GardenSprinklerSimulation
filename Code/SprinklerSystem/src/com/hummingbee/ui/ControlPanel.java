@@ -89,8 +89,8 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnConfig pressed");
-				UserInterface.getInstance().clearContainer();
-				UserInterface.getInstance().addToContainer(new ConfigPanel(width, height), BorderLayout.CENTER);
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new ConfigPanel(width, height), BorderLayout.CENTER);
 			}
 		});
 		
@@ -98,9 +98,9 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnUsage pressed");
-				UserInterface.getInstance().clearContainer();
-				UserInterface.getInstance().addToContainer(new UsagePanel(width, height-100), BorderLayout.CENTER);
-				UserInterface.getInstance().addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new UsagePanel(UserInterface.getUIWidth(), UserInterface.getUIHeight() - 100), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}
 		});
 	}

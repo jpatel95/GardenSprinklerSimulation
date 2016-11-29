@@ -20,13 +20,10 @@ public class MainUI {
 		private static final int WIDTH = 1400;
 		private static final int HEIGHT = 1000;
 		private static UserInterface ui = null;
-		private static Garden garden = null;
 		
 		private UserInterface() {
 			super("User Interface");
 			setPreferredSize(new Dimension(WIDTH, HEIGHT));
-			
-			garden = new Garden();
 			
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
@@ -37,8 +34,8 @@ public class MainUI {
 			container.add(homePanel, BorderLayout.NORTH); 
 			container.add(controlPanel, BorderLayout.SOUTH);
 			
-//			container.add(usagePanel, BorderLayout.NORTH);
 //			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
+//			container.add(usagePanel, BorderLayout.NORTH);
 			
 //			ConfigPanel configPanel = new ConfigPanel(WIDTH, HEIGHT);
 //			container.add(configPanel, BorderLayout.NORTH);
@@ -64,30 +61,39 @@ public class MainUI {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		
-		public static UserInterface getInstance(){
-			if(ui==null){
+		public static int getUIWidth() {
+			return WIDTH;
+		}
+		
+		public static int getUIHeight() {
+			return HEIGHT;
+		}
+		
+		public static UserInterface getInstance() {
+			if (ui == null){
 				ui = new UserInterface();
 			}
 			return ui;
 		}
 		
-		public Garden getGarden(){
-			return garden;
+		public static void clearContainer() {
+			if (ui == null){
+				ui = new UserInterface();
+			}
+			ui.getContentPane().removeAll();
+			ui.getContentPane().repaint();
 		}
 		
-		public void clearContainer(){
-			getContentPane().removeAll();
-		}
-		
-		public void addToContainer(JPanel panel, String location){
-			getContentPane().add(panel, location);
-			panel.setVisible(true);
-			getContentPane().repaint();
+		public static void addToContainer(JPanel panel, String location) {
+			ui.getContentPane().add(panel, location);
+			//ui.getContentPane().repaint();
+			ui.pack();
+			ui.setVisible(true);
 		}
 	}
 	
 	
 	public static void main(String[] args) {
-		new UserInterface();
+		UserInterface.getInstance();
 	}
 }
