@@ -58,7 +58,7 @@ public class Schedule {
 	public List<Interval> mergeIntervals(List<Interval> intervals){
 		List<Interval> result = new ArrayList<Interval>();
 
-		if(intervals==null||intervals.size()==0){
+		if(intervals==null || intervals.size()==0){
 			return result;
 		}
 		
@@ -89,6 +89,19 @@ public class Schedule {
 	public void removeDay(Days day){
 		schedule.remove(day);
 		schedule.put(day, new ArrayList<Interval>());
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder b = new StringBuilder();
+		for(Entry<Days, List<Interval>> entry: schedule.entrySet()){
+			b.append(entry.getKey());
+			for(Interval interval: entry.getValue()){
+				b.append(" " + interval.toString());
+			}
+			b.append("\n");
+		}
+		return b.toString();
 	}
 	
 	//Helper function to initialize a list for each of the 7 days

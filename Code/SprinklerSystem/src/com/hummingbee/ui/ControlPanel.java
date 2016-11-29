@@ -2,28 +2,34 @@ package com.hummingbee.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.hummingbee.system.Garden;
+import com.hummingbee.ui.MainUI.UserInterface;
 
 public class ControlPanel extends JPanel {
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 40;
+	private int width, height;
 	
 	private JButton btnIncTemp;
 	private JButton btnDecTemp;
 	private JButton btnConfig;
 	private JButton btnUsage;
-	
 	private JLabel lblTemp;
 	
 	public ControlPanel(int width, int height) {
 		super();
+		this.width = width;
+		this.height = height;
 		
 		btnIncTemp = new JButton("Increase Temp");
 		btnDecTemp = new JButton("Decrease Temp");
@@ -45,8 +51,10 @@ public class ControlPanel extends JPanel {
 		lblTemp.setFont(new Font("Arial", Font.PLAIN, 20));
 		lblTemp.setForeground(Color.WHITE);
 		
-		setBackground(Color.GRAY);
 		
+		setActionListeners();
+		
+		setBackground(Color.GRAY);
 		add(btnUsage);
 		add(btnConfig);
 		add(btnDecTemp);
@@ -55,7 +63,41 @@ public class ControlPanel extends JPanel {
 	}
 	
 	private static String getTemperatureFormatter(double degrees) {
-		return "Temperature: " + degrees + " °F";
+		return "Temperature: " + degrees + " ÂºF";
 	}
 	
+	private void setActionListeners(){
+		btnIncTemp.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnIncTemp pressed");
+			}
+		});
+		
+		btnDecTemp.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnDecTemp pressed");
+			}
+		});
+		
+		btnConfig.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnConfig pressed");	
+				UserInterface.getInstance().clearContainer();
+				UserInterface.getInstance().addToContainer(new ConfigPanel(width, height), BorderLayout.NORTH);
+			}
+		});
+		
+		btnUsage.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btnUsage pressed");
+				UserInterface.getInstance().clearContainer();
+				UserInterface.getInstance().addToContainer(new UsagePanel(width, height-100), BorderLayout.NORTH);
+				UserInterface.getInstance().addToContainer(new ControlPanel(width, 100), BorderLayout.CENTER);
+			}
+		});
+	}
 }
