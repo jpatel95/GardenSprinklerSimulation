@@ -2,6 +2,7 @@ package com.hummingbee.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,20 +13,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.hummingbee.system.Garden;
+import com.hummingbee.ui.MainUI.UserInterface;
 
 public class ControlPanel extends JPanel {
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 40;
+	private int width, height;
 	
 	private JButton btnIncTemp;
 	private JButton btnDecTemp;
 	private JButton btnConfig;
 	private JButton btnUsage;
-	
 	private JLabel lblTemp;
 	
 	public ControlPanel(int width, int height) {
 		super();
+		this.width = width;
+		this.height = height;
 		
 		btnIncTemp = new JButton("Increase Temp");
 		btnDecTemp = new JButton("Decrease Temp");
@@ -80,7 +84,9 @@ public class ControlPanel extends JPanel {
 		btnConfig.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnCommit pressed");
+				System.out.println("btnConfig pressed");	
+				UserInterface.getInstance().clearContainer();
+				UserInterface.getInstance().addToContainer(new ConfigPanel(width, height), BorderLayout.NORTH);
 			}
 		});
 		
@@ -88,6 +94,9 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnUsage pressed");
+				UserInterface.getInstance().clearContainer();
+				UserInterface.getInstance().addToContainer(new UsagePanel(width, height-100), BorderLayout.NORTH);
+				UserInterface.getInstance().addToContainer(new ControlPanel(width, 100), BorderLayout.CENTER);
 			}
 		});
 	}

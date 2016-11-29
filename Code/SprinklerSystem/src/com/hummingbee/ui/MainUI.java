@@ -19,28 +19,23 @@ public class MainUI {
 	public static class UserInterface extends JFrame {
 		private static final int WIDTH = 1200;
 		private static final int HEIGHT = 700;
+		private static UserInterface ui = null;
 		
-		public UserInterface() {
+		private UserInterface() {
 			super("User Interface");
 			setPreferredSize(new Dimension(WIDTH, HEIGHT));
 			
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
 			
-			//HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 100);
-			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
-			
+			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 70);			
 			ControlPanel controlPanel = new ControlPanel(WIDTH, 100);
-			
-			//container.add(homePanel, BorderLayout.NORTH); 
-			container.add(usagePanel, BorderLayout.NORTH);
-			container.add(controlPanel, BorderLayout.SOUTH);
 
-//			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT);
-//			ControlPanel controlPanel = new ControlPanel(WIDTH, HEIGHT);
+			container.add(homePanel, BorderLayout.NORTH); 
+			container.add(controlPanel, BorderLayout.SOUTH);
 			
-//			container.add(homePanel, BorderLayout.NORTH);
-//			container.add(controlPanel, BorderLayout.SOUTH);
+//			container.add(usagePanel, BorderLayout.NORTH);
+//			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
 			
 //			ConfigPanel configPanel = new ConfigPanel(WIDTH, HEIGHT);
 //			container.add(configPanel, BorderLayout.NORTH);
@@ -66,7 +61,25 @@ public class MainUI {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		
+		public static UserInterface getInstance(){
+			if(ui==null){
+				ui = new UserInterface();
+			}
+			return ui;
+		}
+		
+		
+		public void clearContainer(){
+			getContentPane().removeAll();
+		}
+		
+		public void addToContainer(JPanel panel, String location){
+			getContentPane().add(panel, location);
+			panel.setVisible(true);
+			getContentPane().repaint();
+		}
 	}
+	
 	
 	public static void main(String[] args) {
 		new UserInterface();
