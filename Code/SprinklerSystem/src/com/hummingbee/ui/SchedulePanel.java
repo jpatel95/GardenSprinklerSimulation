@@ -20,12 +20,11 @@ import com.hummingbee.enums.Days;
 
 public class SchedulePanel extends JPanel{
 	private Map<Days, List<Interval>> schedule;
-	
 	private JLabel lblStartDay, lblStartHour, lblStartMinute;
 	private JLabel lblEndDay, lblEndHour, lblEndMinute;
-	private JComboBox<String> daysStartComboBox, daysEndComboBox;
+	private JComboBox<String> daysStartComboBox;
 	private JComboBox <Integer> hoursStartComboBox, minutesStartComboBox, hoursEndComboBox, minutesEndComboBox;
-	private JButton btnAddInterval, btnCommit, btnBack;
+	private JButton btnAddInterval, btnCommit;
 	
 	private String [] days = {Days.SUNDAY.toString(), Days.MONDAY.toString(), Days.TUESDAY.toString(),
 			Days.WEDNESDAY.toString(), Days.THURSDAY.toString(), Days.FRIDAY.toString(),
@@ -49,8 +48,8 @@ public class SchedulePanel extends JPanel{
 		
 		initializeSchedule();
 		
-		StartConfigPanel startPanel = new StartConfigPanel();
-		EndConfigPanel endPanel = new EndConfigPanel();
+		TopPanel startPanel = new TopPanel();
+		BodyPanel endPanel = new BodyPanel();
 		
 		setActionListeners();
 		
@@ -75,13 +74,6 @@ public class SchedulePanel extends JPanel{
 				System.out.println(schedule);
 			}
 		});
-		
-		btnBack.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnBack pressed");
-			}
-		});
 	}
 	
 	//Helper function to initialize a list for each of the 7 days
@@ -96,63 +88,72 @@ public class SchedulePanel extends JPanel{
 		schedule.put(Days.SATURDAY, new ArrayList<Interval>());
 	}
 	
-	private class StartConfigPanel extends JPanel{
-		public StartConfigPanel(){
-			lblStartDay = new JLabel("Start Day");
-			lblStartHour = new JLabel("Start Hour");
-			lblStartMinute = new JLabel("Start Minute");
-			
+	private class TopPanel extends JPanel{
+		public TopPanel(){			
+			lblStartDay = new JLabel("Day");
 			daysStartComboBox = new JComboBox<String>(days);
-			hoursStartComboBox = new JComboBox<Integer>((Integer[]) hours.toArray());
-			minutesStartComboBox = new JComboBox<Integer>((Integer[]) minutes.toArray());
-
 			daysStartComboBox.setSelectedIndex(0);
-			hoursStartComboBox.setSelectedIndex(0);
-			minutesStartComboBox.setSelectedIndex(0);
-
+			
 			this.add(lblStartDay);
 			this.add(daysStartComboBox);
-			this.add(lblStartHour);
-			this.add(hoursStartComboBox);
-			this.add(lblStartMinute);
-			this.add(minutesStartComboBox);
 		}
 	}
 	
-	private class EndConfigPanel extends JPanel{
-		
-		public EndConfigPanel(){
+	private class BodyPanel extends JPanel{
+		public BodyPanel(){
 			super(new BorderLayout());
 			
-			lblEndDay = new JLabel("End Day");
+			StartPanel startPanel = new StartPanel();
+			EndPanel endPanel = new EndPanel();
+			
+			this.add(startPanel, BorderLayout.NORTH);
+			this.add(endPanel, BorderLayout.CENTER);
+		}
+	}
+	
+	
+	private class StartPanel extends JPanel{
+		public StartPanel(){
+			super();
+			lblStartHour = new JLabel("Start Hour");
+			lblStartMinute = new JLabel("Start Minute");
+			hoursStartComboBox = new JComboBox(hours.toArray());
+			minutesStartComboBox = new JComboBox(minutes.toArray());
+			hoursStartComboBox.setSelectedIndex(0);
+			minutesStartComboBox.setSelectedIndex(0);
+			this.add(lblStartHour, BorderLayout.CENTER);
+			this.add(hoursStartComboBox, BorderLayout.CENTER);
+			this.add(lblStartMinute, BorderLayout.CENTER);
+			this.add(minutesStartComboBox, BorderLayout.CENTER);
+		}
+	}
+	
+	private class EndPanel extends JPanel{
+		public EndPanel(){
+			super(new BorderLayout());
+
 			lblEndHour = new JLabel("End Hour");
 			lblEndMinute = new JLabel("End Minute");
 			
-			daysEndComboBox = new JComboBox<String>(days);
-			hoursEndComboBox = new JComboBox<Integer>((Integer[]) hours.toArray());
-			minutesEndComboBox = new JComboBox<Integer>((Integer[]) minutes.toArray());
+			hoursEndComboBox = new JComboBox(hours.toArray());
+			minutesEndComboBox = new JComboBox( minutes.toArray());
 
-			daysEndComboBox.setSelectedIndex(0);
 			hoursEndComboBox.setSelectedIndex(0);
 			minutesEndComboBox.setSelectedIndex(0);
 			
 			btnAddInterval = new JButton("Add");
 			btnCommit = new JButton("Commit Changes");
-			btnBack = new JButton("Back");
 			
 			JPanel btnPanel = new JPanel();
 			btnPanel.add(btnAddInterval);
 			btnPanel.add(btnCommit);
-			btnPanel.add(btnBack);
 			
 			JPanel comboPanel = new JPanel();
-			comboPanel.add(lblEndDay);
-			comboPanel.add(daysEndComboBox);
 			comboPanel.add(lblEndHour);
 			comboPanel.add(hoursEndComboBox);
 			comboPanel.add(lblEndMinute);
 			comboPanel.add(minutesEndComboBox);
-
+			
 			this.add(comboPanel, BorderLayout.NORTH);
 			this.add(btnPanel, BorderLayout.CENTER);
 		}
