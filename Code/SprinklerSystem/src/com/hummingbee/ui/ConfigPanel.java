@@ -122,11 +122,11 @@ public class ConfigPanel extends JPanel{
 	}
 	
 	private String minThresholdFormatter(double threshold) {
-		return "Min Threshold: " + threshold + " °F";
+		return "Min Threshold: " + threshold + " ÂºF";
 	}
 	
 	private String maxThresholdFormatter(double threshold) {
-		return "Max Threshold: " + threshold + " °F";
+		return "Max Threshold: " + threshold + " ÂºF";
 	}
 	
 	private void setActionListeners(){
