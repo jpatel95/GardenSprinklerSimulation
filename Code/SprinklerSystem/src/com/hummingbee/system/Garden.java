@@ -61,4 +61,20 @@ public class Garden {
 	public void decrementTemperature() {
 		thermometer.decrementTemperature();
 	}
+	
+	public double getMinThreshold() {
+		return thermometer.getMinThreshold();
+	}
+	
+	public double getMaxThreshold() {
+		return thermometer.getMaxThreshold();
+	}
+	
+	public void setMinThreshold(double threshold) {
+		thermometer.setMinThreshold(threshold);
+	}
+	
+	public void setMaxThreshold(double threshold) {
+		thermometer.setMaxThreshold(threshold);
+	}
 }
