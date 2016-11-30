@@ -31,7 +31,7 @@ public class MainUI {
 			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 100);
 			ControlPanel controlPanel = new ControlPanel(WIDTH, 100);
 
-			container.add(homePanel, BorderLayout.NORTH); 
+			container.add(homePanel, BorderLayout.NORTH);
 			container.add(controlPanel, BorderLayout.SOUTH);
 			
 //			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);

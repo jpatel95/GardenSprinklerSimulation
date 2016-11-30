@@ -27,7 +27,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.hummingbee.enums.Direction;
 import com.hummingbee.system.DayUsage;
@@ -101,9 +104,20 @@ public class UsagePanel extends JPanel {
 		eastUsageList.add(new DayUsage(LocalDate.now().minusDays(5), 2.3));
 		testUsageHistory.put("EAST", eastUsageList);
 		
+		HashMap<String, Double> totalUsages = new HashMap<String, Double>();
+		totalUsages.put(Direction.NORTH.toString(), Garden.getInstance().getTotalClusterUsage(Direction.NORTH));
+		totalUsages.put(Direction.EAST.toString(), Garden.getInstance().getTotalClusterUsage(Direction.EAST));
+		totalUsages.put(Direction.SOUTH.toString(), Garden.getInstance().getTotalClusterUsage(Direction.SOUTH));
+		totalUsages.put(Direction.WEST.toString(), Garden.getInstance().getTotalClusterUsage(Direction.WEST));
 		
-		BarChart usagesChart = new BarChart(testTotalUsages, (int) (width * 0.7), (int) (height * 0.3));
-		GraphPanel graphPanel = new GraphPanel(testUsageHistory, (int) (width * 0.7), (int) (height * 0.4));
+		HashMap<String, LinkedList<DayUsage>> usageHistory = new HashMap<String, LinkedList<DayUsage>>();
+		usageHistory.put(Direction.NORTH.toString(), Garden.getInstance().getCluster(Direction.NORTH).getUsageHistory(7));
+		usageHistory.put(Direction.EAST.toString(), Garden.getInstance().getCluster(Direction.EAST).getUsageHistory(7));
+		usageHistory.put(Direction.SOUTH.toString(), Garden.getInstance().getCluster(Direction.SOUTH).getUsageHistory(7));
+		usageHistory.put(Direction.WEST.toString(), Garden.getInstance().getCluster(Direction.WEST).getUsageHistory(7));
+		
+		BarChart usagesChart = new BarChart(totalUsages, (int) (width * 0.7), (int) (height * 0.3));
+		GraphPanel graphPanel = new GraphPanel(usageHistory, (int) (width * 0.7), (int) (height * 0.4));
 		
 		add(btnNorthCluster, BorderLayout.NORTH);
 		add(btnEastCluster, BorderLayout.EAST);
@@ -212,21 +226,19 @@ public class UsagePanel extends JPanel {
 	        
 	        colorCodes = new HashMap<String, Color>();
 	        
-	        Iterator<String> iterator = usages.keySet().iterator();
-	        int hue = 0;
-	        while (iterator.hasNext()) {
-	        	String key = iterator.next();
-	        	colorCodes.put(key, new Color(hue));
-	        	hue += (360 / usages.size());
-	        }
-	        
 	        legendPanel = new JPanel();
 	        legendPanel.add(new JLabel("Legend: "));
-	        iterator = usages.keySet().iterator();
+	        
+	        Iterator<String> iterator = usages.keySet().iterator();
+	        float hue = 0;
 	        while (iterator.hasNext()) {
 	        	String key = iterator.next();
+	        	colorCodes.put(key, new Color(Color.HSBtoRGB(hue, (float) 0.7, (float) 0.7)));
+	        	hue += (1.0 / usages.size());
+	        	
 	        	JLabel label = new JLabel(key);
-	        	label.setBorder(BorderFactory.createLineBorder(colorCodes.get(key)));
+	        	Border margin = new EmptyBorder(0, 5, 0, 5);
+	        	label.setBorder(new CompoundBorder(new LineBorder(colorCodes.get(key), 2), margin));
 	        	legendPanel.add(label);
 	        }
 	        
