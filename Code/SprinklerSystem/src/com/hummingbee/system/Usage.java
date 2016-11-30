@@ -105,11 +105,13 @@ public class Usage {
 		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.containsKey(sprinklerId) ?
 				sprinklerUsages.get(sprinklerId) : new LinkedList<DayUsage>();
 				
-		Iterator<DayUsage> iterator = sprinklerUsage.iterator();
-		while (daysLookback >= 0 && iterator.hasNext()) {
-			DayUsage dayUsage = iterator.next();
+		int sprinklerUsageIndex = 0;
+		while (daysLookback >= 0 && sprinklerUsageIndex < sprinklerUsage.size()) {
+			DayUsage dayUsage = sprinklerUsage.get(sprinklerUsageIndex);
+
 			if (lookBack.isEqual(dayUsage.getDay())) {
 				result.add(dayUsage);
+				sprinklerUsageIndex++;
 			}
 			
 			daysLookback--;
