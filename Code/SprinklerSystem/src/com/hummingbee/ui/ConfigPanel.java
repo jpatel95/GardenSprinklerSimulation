@@ -99,9 +99,9 @@ public class ConfigPanel extends JPanel{
 		setBackground(Color.GRAY);
 		
 		setActionListeners();
-		
-		buttonPanel.add(btnIncrementDay);
+
 		buttonPanel.add(btnDecrementDay);
+		buttonPanel.add(btnIncrementDay);
 		buttonPanel.add(btnSetSchedule);
 		buttonPanel.add(btnSetThresholdTemp);
 		
