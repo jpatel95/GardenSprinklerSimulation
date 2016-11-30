@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,19 +18,25 @@ import com.hummingbee.system.Thermometer;
 public class MainUI {
 	
 	public static class UserInterface extends JFrame {
-		private static final int WIDTH = 1400;
-		private static final int HEIGHT = 1000;
+		private static Dimension screenSize = null;
 		private static UserInterface ui = null;
 		
 		private UserInterface() {
 			super("User Interface");
-			setPreferredSize(new Dimension(WIDTH, HEIGHT));
+			Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
+			screenDimension.setSize(screenDimension.getWidth() * 0.9,
+					screenDimension.getHeight() * 0.95);
+			screenSize = screenDimension;
+			
+			setPreferredSize(screenSize);
 			
 			Container container = getContentPane();
 			container.setLayout(new BorderLayout());
 			
-			HomePanel homePanel = new HomePanel(WIDTH, HEIGHT - 100);
-			ControlPanel controlPanel = new ControlPanel(WIDTH, 100);
+			HomePanel homePanel = new HomePanel((int) (screenSize.getWidth()),
+					(int) (screenSize.getHeight() - 87));
+			
+			ControlPanel controlPanel = new ControlPanel((int) (screenSize.getWidth()), 100);
 
 			container.add(homePanel, BorderLayout.NORTH);
 			container.add(controlPanel, BorderLayout.SOUTH);
@@ -62,11 +69,11 @@ public class MainUI {
 		}
 		
 		public static int getUIWidth() {
-			return WIDTH;
+			return (int) (screenSize.getWidth());
 		}
 		
 		public static int getUIHeight() {
-			return HEIGHT;
+			return (int) (screenSize.getHeight());
 		}
 		
 		public static UserInterface getInstance() {
