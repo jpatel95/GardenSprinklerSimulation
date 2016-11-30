@@ -25,7 +25,7 @@ public class MainUI {
 			super("User Interface");
 			Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 			screenDimension.setSize(screenDimension.getWidth() * 0.9,
-					screenDimension.getHeight() * 0.95);
+					screenDimension.getHeight() * 0.8);
 			screenSize = screenDimension;
 			
 			setPreferredSize(screenSize);

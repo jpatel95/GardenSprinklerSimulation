@@ -63,7 +63,7 @@ public class ControlPanel extends JPanel {
 	}
 	
 	private static String getTemperatureFormatter(double degrees) {
-		return "Temperature: " + degrees + " °F";
+		return "Temperature: " + degrees + " ÂºF";
 	}
 	
 	private void setActionListeners(){
