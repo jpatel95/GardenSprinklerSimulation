@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class StatusPanel extends JPanel{
-	private JButton btnBack;
 	private JScrollPane jScrollPaneFunctional, jScrollPaneNonFunctional;
     private JTextArea textAreaFunctional, textAreaNonFunctional;
     private StringBuilder functionalBuilder,nonFunctionalBuilder;
@@ -20,8 +19,6 @@ public class StatusPanel extends JPanel{
 		super(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
 		
-		btnBack = new JButton("Back");
-
 		functionalBuilder = new StringBuilder();
 		nonFunctionalBuilder = new StringBuilder();
 		
@@ -52,7 +49,6 @@ public class StatusPanel extends JPanel{
         textAreaPanel.add(jScrollPaneNonFunctional);
         
         JPanel btnPanel = new JPanel();
-        btnPanel.add(btnBack);
         
         this.add(textAreaPanel, BorderLayout.NORTH);
         this.add(btnPanel, BorderLayout.CENTER);
@@ -65,11 +61,6 @@ public class StatusPanel extends JPanel{
 	}
 	
 	private void setActionListeners(){
-		btnBack.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnBack pressed");
-			}
-		});
+		//If needed
 	}
 }

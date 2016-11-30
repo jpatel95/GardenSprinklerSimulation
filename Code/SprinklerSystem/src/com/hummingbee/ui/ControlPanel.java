@@ -16,7 +16,7 @@ import com.hummingbee.system.Garden;
 import com.hummingbee.ui.MainUI.UserInterface;
 
 public class ControlPanel extends JPanel {
-	private static final int BUTTON_WIDTH = 200;
+	private static final int BUTTON_WIDTH = 160;
 	private static final int BUTTON_HEIGHT = 40;
 	private int width, height;
 	
@@ -24,6 +24,7 @@ public class ControlPanel extends JPanel {
 	private JButton btnDecTemp;
 	private JButton btnConfig;
 	private JButton btnUsage;
+	private JButton btnHome;
 	private JLabel lblTemp;
 	
 	public ControlPanel(int width, int height) {
@@ -35,6 +36,7 @@ public class ControlPanel extends JPanel {
 		btnDecTemp = new JButton("Decrease Temp");
 		btnConfig = new JButton("Config");
 		btnUsage = new JButton("View Usage");
+		btnHome = new JButton("Home");
 		
 		lblTemp = new JLabel(getTemperatureFormatter(Garden.getInstance().getTemperature()));
 		
@@ -42,19 +44,23 @@ public class ControlPanel extends JPanel {
 		btnDecTemp.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnConfig.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnUsage.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		btnHome.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		
-		btnIncTemp.setFont(new Font("Arial", Font.PLAIN, 20));
-		btnDecTemp.setFont(new Font("Arial", Font.PLAIN, 20));
-		btnConfig.setFont(new Font("Arial", Font.PLAIN, 20));
-		btnUsage.setFont(new Font("Arial", Font.PLAIN, 20));
+		btnIncTemp.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnDecTemp.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnConfig.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnUsage.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnHome.setFont(new Font("Arial", Font.PLAIN, 16));
 		
-		lblTemp.setFont(new Font("Arial", Font.PLAIN, 20));
+		lblTemp.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTemp.setForeground(Color.WHITE);
 		
 		
 		setActionListeners();
 		
 		setBackground(Color.GRAY);
+		
+		add(btnHome);
 		add(btnUsage);
 		add(btnConfig);
 		add(btnDecTemp);
@@ -67,6 +73,16 @@ public class ControlPanel extends JPanel {
 	}
 	
 	private void setActionListeners(){
+		btnHome.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new HomePanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
+			}
+		});
+		
 		btnIncTemp.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {

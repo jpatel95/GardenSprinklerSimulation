@@ -23,6 +23,8 @@ public class ConfigPanel extends JPanel{
 	private static final int BUTTON_WIDTH = 150;
 	private static final int BUTTON_HEIGHT = 50;
 	private static final int LABEL_SPACING = 15;
+	private int width;
+	private int height;
 	
 	private JPanel buttonPanel;
 	private JPanel labelPanel;
@@ -42,6 +44,9 @@ public class ConfigPanel extends JPanel{
 	
 	public ConfigPanel(int width, int height){
 		super();
+		this.width = width;
+		this.height = height;
+		
 		setPreferredSize(new Dimension(width, height));
 
 		buttonPanel = new JPanel();
@@ -59,7 +64,7 @@ public class ConfigPanel extends JPanel{
 		btnSetThresholdTemp = new JButton("Set Threshold");
 		
 		btnEnableDisable = new JButton("Enable");
-		btnActivation = new JButton("Activation");
+		btnActivation = new JButton("Activate");
 		btnStatus = new JButton("Status");
 		
 		lblSystemDate = new JLabel(dateLabelFormatter(SystemDate.getDate()));
@@ -150,7 +155,10 @@ public class ConfigPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnSetSchedule Pressed");
-				
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new SchedulePanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}
 		});
 		
@@ -158,6 +166,10 @@ public class ConfigPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnSetThresholdTemp Pressed");
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new ThresholdTempPanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}		
 		});
 		
@@ -165,6 +177,7 @@ public class ConfigPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnEnableDisable Pressed");
+				
 			}		
 		});
 		
@@ -178,7 +191,11 @@ public class ConfigPanel extends JPanel{
 		btnStatus.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnSetStatus Pressed");				
+				System.out.println("btnSetStatus Pressed");
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new StatusPanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}		
 		});
 		

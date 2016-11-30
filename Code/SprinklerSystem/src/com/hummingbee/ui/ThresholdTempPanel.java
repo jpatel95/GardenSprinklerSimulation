@@ -14,7 +14,7 @@ public class ThresholdTempPanel extends JPanel{
 	
 	private JLabel lblMin, lblMax;
 	private JComboBox <Integer> comboMin, comboMax;
-	private JButton btnCommit, btnBack;
+	private JButton btnCommit;
 	
 	private Integer [] tempArray;
 	
@@ -36,13 +36,11 @@ public class ThresholdTempPanel extends JPanel{
 		comboMax.setSelectedIndex(90);
 
 		btnCommit = new JButton("Commit Changes");
-		btnBack = new JButton("Back");
 		
 		setActionListeners();
 		
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(btnCommit);
-		btnPanel.add(btnBack);
 		
 		JPanel settingPanel = new JPanel();
 		settingPanel.add(lblMin);
@@ -60,13 +58,6 @@ public class ThresholdTempPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnCommit pressed");
-			}
-		});
-		
-		btnBack.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnBack pressed");
 			}
 		});
 	}
