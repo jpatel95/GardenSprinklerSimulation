@@ -90,7 +90,7 @@ public class Thermometer {
 		return this.degreesFarenheit;
 	}
 	
-	public double getMinTheshold(){
+	public double getMinThreshold(){
 		return this.minThreshold;
 	}
 	
