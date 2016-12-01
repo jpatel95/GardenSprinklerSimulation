@@ -304,7 +304,8 @@ public class UsagePanel extends JPanel {
 	                    g2.setColor(gridColor);
 	                    g2.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
 	                    g2.setColor(Color.BLACK);
-	                    String xLabel = SystemDate.getDate().minusDays(getMaxLength() - (i + 1)) + "";
+	                    String xLabel = Garden.getInstance().getDate().
+	                    		minusDays(getMaxLength() - (i + 1)) + "";
 	                    FontMetrics metrics = g2.getFontMetrics();
 	                    int labelWidth = metrics.stringWidth(xLabel);
 	                    g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);

@@ -68,9 +68,15 @@ public class ConfigPanel extends JPanel{
 		btnActivation = new JButton("Activate");
 		btnStatus = new JButton("Status");
 		
+<<<<<<< HEAD
 		lblSystemDate = new JLabel(Formatter.dateLabelFormatter(SystemDate.getDate()));
 		lblMinThreshold = new JLabel(Formatter.minThresholdFormatter(Garden.getInstance().getMinThreshold()));
 		lblMaxThreshold = new JLabel(Formatter.maxThresholdFormatter(Garden.getInstance().getMaxThreshold()));
+=======
+		lblSystemDate = new JLabel(dateLabelFormatter(Garden.getInstance().getDate()));
+		lblMinThreshold = new JLabel(minThresholdFormatter(Garden.getInstance().getMinThreshold()));
+		lblMaxThreshold = new JLabel(maxThresholdFormatter(Garden.getInstance().getMaxThreshold()));
+>>>>>>> 66e9293ab9e564f1c7f26ef09c559e6308d6413a
 		
 		btnIncrementDay.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnDecrementDay.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -127,16 +133,16 @@ public class ConfigPanel extends JPanel{
 		btnIncrementDay.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SystemDate.addDays(1);
-				lblSystemDate.setText(Formatter.dateLabelFormatter(SystemDate.getDate()));
+				Garden.getInstance().addDays(1);
+				lblSystemDate.setText(Formatter.dateLabelFormatter(Garden.getInstance().getDate()));
 			}		
 		});
 		
 		btnDecrementDay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SystemDate.subtractDays(1);
-				lblSystemDate.setText(Formatter.dateLabelFormatter(SystemDate.getDate()));
+				Garden.getInstance().minusDays(1);
+				lblSystemDate.setText(Formatter.dateLabelFormatter(Garden.getInstance().getDate()));
 			}
 		});
 		

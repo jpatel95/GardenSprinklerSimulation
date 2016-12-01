@@ -1,6 +1,10 @@
 package com.hummingbee.system;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Date of the sprinkler system. Necessary for simulation purposes
@@ -8,29 +12,38 @@ import java.time.LocalDate;
  *
  */
 public class SystemDate {
-	private static LocalDate date = null;
+	private LocalDateTime date;
 	
-	public static LocalDate getDate() {
-		if (date == null) {
-			date = LocalDate.now();
-		}
-		
-		return date;
+	public SystemDate() {
+		date = LocalDateTime.now();
+		start();
 	}
 	
-	public static void addDays(int days) {
-		if (date == null) {
-			date = LocalDate.now();
-		}
-		
+	public LocalDate getDate() {
+		return date.toLocalDate();
+	}
+	
+	public void addDays(int days) {
 		date = date.plusDays(days);
 	}
 	
-	public static void subtractDays(int days) {
-		if (date == null) {
-			date = LocalDate.now();
-		}
-		
+	public void minusDays(int days) {
 		date = date.minusDays(days);
+	}
+	
+	public LocalTime getTime() {
+		return date.toLocalTime();
+	}
+	
+	private void start() {
+		date = LocalDateTime.now();
+		Timer timer = new Timer();
+		// start the timer to update a minute every second
+		timer.schedule(new TimerTask() {
+			public void run() {
+				date = date.plusMinutes(1);
+				//System.out.println(getTime());
+			}
+		}, 0, 1000);
 	}
 }
