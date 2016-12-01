@@ -1,12 +1,14 @@
 package com.hummingbee.system;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 import com.hummingbee.enums.Direction;
 
 public class Garden {
 	private HashMap<Direction, SprinklerCluster> clusters;
-	
+	private SystemDate date;
 	private Thermometer thermometer;
 	private Schedule schedule;
 	
@@ -29,6 +31,7 @@ public class Garden {
 		
 		initializeSprinklersInClusters(3);
 		
+		date = new SystemDate();
 		thermometer = new Thermometer();
 		schedule = new Schedule();
 	}
@@ -76,5 +79,21 @@ public class Garden {
 	
 	public void setMaxThreshold(double threshold) {
 		thermometer.setMaxThreshold(threshold);
+	}
+	
+	public LocalDate getDate() {
+		return date.getDate();
+	}
+	
+	public void addDays(int days) {
+		date.addDays(days);
+	}
+	
+	public void minusDays(int days) {
+		date.minusDays(days);
+	}
+	
+	public LocalTime getTime() {
+		return date.getTime();
 	}
 }
