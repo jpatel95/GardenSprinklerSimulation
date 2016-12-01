@@ -74,7 +74,7 @@ public class Sprinkler implements ISprinkler {
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
 		int listIndex = 0;
 		for (int i = 0; i < daysLookback; i++) {
-			LocalDate date = SystemDate.getDate().minusDays(i);
+			LocalDate date = Garden.getInstance().getDate().minusDays(i);
 			if (listIndex < list.size() && date.isEqual(list.get(listIndex).getDay())) {
 				result.add(list.get(listIndex));
 				listIndex++;

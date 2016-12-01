@@ -53,8 +53,8 @@ public class Usage {
 		else {
 			lastUpdate = sprinklerUsage.getFirst();
 			// if the day of last update isn't today
-			if (!lastUpdate.getDay().equals(SystemDate.getDate())) {
-				DayUsage dayUsage = new DayUsage(SystemDate.getDate(), usage);
+			if (!lastUpdate.getDay().equals(Garden.getInstance().getDate())) {
+				DayUsage dayUsage = new DayUsage(Garden.getInstance().getDate(), usage);
 				sprinklerUsage.addFirst(dayUsage);
 			}
 			else {
@@ -100,7 +100,7 @@ public class Usage {
 			sprinklerUsages = readSprinklerUsages();
 		}
 		
-		LocalDate lookBack = SystemDate.getDate();
+		LocalDate lookBack = Garden.getInstance().getDate();
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
 		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.containsKey(sprinklerId) ?
 				sprinklerUsages.get(sprinklerId) : new LinkedList<DayUsage>();

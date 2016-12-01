@@ -67,7 +67,7 @@ public class ConfigPanel extends JPanel{
 		btnActivation = new JButton("Activate");
 		btnStatus = new JButton("Status");
 		
-		lblSystemDate = new JLabel(dateLabelFormatter(SystemDate.getDate()));
+		lblSystemDate = new JLabel(dateLabelFormatter(Garden.getInstance().getDate()));
 		lblMinThreshold = new JLabel(minThresholdFormatter(Garden.getInstance().getMinThreshold()));
 		lblMaxThreshold = new JLabel(maxThresholdFormatter(Garden.getInstance().getMaxThreshold()));
 		
@@ -138,16 +138,16 @@ public class ConfigPanel extends JPanel{
 		btnIncrementDay.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SystemDate.addDays(1);
-				lblSystemDate.setText(dateLabelFormatter(SystemDate.getDate()));
+				Garden.getInstance().addDays(1);
+				lblSystemDate.setText(dateLabelFormatter(Garden.getInstance().getDate()));
 			}		
 		});
 		
 		btnDecrementDay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SystemDate.subtractDays(1);
-				lblSystemDate.setText(dateLabelFormatter(SystemDate.getDate()));
+				Garden.getInstance().minusDays(1);
+				lblSystemDate.setText(dateLabelFormatter(Garden.getInstance().getDate()));
 			}
 		});
 		
