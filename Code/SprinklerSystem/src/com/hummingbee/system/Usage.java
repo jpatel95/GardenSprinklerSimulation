@@ -127,6 +127,7 @@ public class Usage {
 	 * reads usages from serialized file in resources folder
 	 * @return HashMap<String, Double> of serialized usages, constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, Double> readTotalUsages() {
 		HashMap<String, Double> map;
 		File usagesFile = new File(TOTAL_USAGES_FILE_PATH);
@@ -157,6 +158,7 @@ public class Usage {
 	 * @return HashMap<String, LinkedList<DayUsage>> of serialized usages
 	 * constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, LinkedList<DayUsage>> readSprinklerUsages() {
 		HashMap<String, LinkedList<DayUsage>> map;
 		File usagesFile = new File(SPRINKLER_USAGES_FILE_PATH);

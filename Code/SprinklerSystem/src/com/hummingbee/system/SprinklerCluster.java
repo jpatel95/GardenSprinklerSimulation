@@ -1,7 +1,5 @@
 package com.hummingbee.system;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -98,7 +96,6 @@ public class SprinklerCluster implements ISprinkler {
 	@Override
 	public LinkedList<DayUsage> getUsageHistory(int daysLookback) {
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
-		HashMap<LocalDate, Double> dailyUsages = new HashMap<LocalDate, Double>();
 		Iterator<Sprinkler> sprinklerIterator = sprinklerMap.values().iterator();
 		
 		// loop through all spinklers in the cluster
