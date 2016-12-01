@@ -173,7 +173,10 @@ public class ConfigPanel extends JPanel{
 		btnActivation.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnActivation Pressed");				
+				UserInterface.clearContainer();
+				UserInterface.addToContainer(new ActivationPanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 			}		
 		});
 		

@@ -28,7 +28,7 @@ public class UpdateTimer {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			public void run() {
-				System.out.println("usage update interval");
+				//System.out.println("usage update interval");
 				Iterator<Sprinkler> iterator = activeSprinklers.keySet().iterator();
 				while (iterator.hasNext()) {
 					Sprinkler sprinkler = iterator.next();
@@ -39,7 +39,7 @@ public class UpdateTimer {
 					activeSprinklers.put(sprinkler, now);
 				}
 			}
-		}, UPDATE_INTERVAL * 1000);
+		}, UPDATE_INTERVAL * 1000, UPDATE_INTERVAL * 1000);
 	}
 	
 	/**

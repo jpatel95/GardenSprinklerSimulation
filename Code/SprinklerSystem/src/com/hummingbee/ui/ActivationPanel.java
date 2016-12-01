@@ -2,66 +2,139 @@ package com.hummingbee.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
+import com.hummingbee.enums.Direction;
+import com.hummingbee.system.Garden;
+import com.hummingbee.system.ISprinkler;
+import com.hummingbee.system.Sprinkler;
+import com.hummingbee.system.SprinklerCluster;
 
 public class ActivationPanel extends JPanel{
-	private JLabel lblInput;
-	private JButton btnBack, btnActivate, btnDeactivate;
-	private JTextField txtField;
+	private ClusterPanel northClusterPanel, eastClusterPanel, southClusterPanel, westClusterPanel;
+	private JLabel titleLabel;
 	
 	public ActivationPanel(int width, int height){
 		super(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
 		
-		lblInput = new JLabel("Sprinker ID:");
-		txtField = new JTextField(20);
+		northClusterPanel = new ClusterPanel(Direction.NORTH, width, (int) (height * 0.15));
+		eastClusterPanel = new ClusterPanel(Direction.EAST, (int) (width * 0.15), (int) (height * 0.7));
+		southClusterPanel = new ClusterPanel(Direction.SOUTH, width, (int) (height * 0.15));
+		westClusterPanel = new ClusterPanel(Direction.WEST, (int) (width * 0.15), (int) (height * 0.7));
+		
+		titleLabel = new JLabel("Toggle sprinkler and sprinkler cluster activation");
+		titleLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		titleLabel.setHorizontalAlignment(JLabel.CENTER);
+		titleLabel.setVerticalAlignment(JLabel.CENTER);
 	
-		btnBack = new JButton("Back");
-		btnActivate = new JButton("Activate");
-		btnDeactivate = new JButton("Deactivate");
-
+		add(northClusterPanel, BorderLayout.NORTH);
+		add(eastClusterPanel, BorderLayout.EAST);
+		add(southClusterPanel, BorderLayout.SOUTH);
+		add(westClusterPanel, BorderLayout.WEST);
+		add(titleLabel, BorderLayout.CENTER);
 		
-		JPanel textPanel = new JPanel();
-		textPanel.add(lblInput);
-		textPanel.add(txtField);
-		
-		JPanel btnPanel = new JPanel();
-		btnPanel.add(btnActivate);
-		btnPanel.add(btnDeactivate);
-		btnPanel.add(btnBack);
-		
-		setActionListeners();
-		
-		this.add(textPanel, BorderLayout.NORTH);
-		this.add(btnPanel, BorderLayout.CENTER);
+		add(titleLabel);
 	}
 	
-	private void setActionListeners(){
-		btnActivate.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnActivate pressed");
-			}
-		});
+	class ClusterPanel extends JPanel {
+		private SprinklerButton[] btnsSprinkler;
 		
-		btnDeactivate.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnDeactivate pressed");
+		public ClusterPanel(Direction direction, int width, int height) {
+			setPreferredSize(new Dimension(width, height));
+			
+			boolean isHorizontal = (height >= width);
+			
+			SprinklerCluster cluster = Garden.getInstance().getCluster(direction);
+			
+			int btnCount = cluster.getCount() + 1;
+			
+			int btnWidth, btnHeight;
+			
+			if (isHorizontal) {
+				setLayout(new GridLayout(btnCount, 1));
+				btnWidth = width / btnCount;
+				btnHeight = height;
 			}
-		});
+			else {
+				setLayout(new GridLayout(1, btnCount));
+				btnWidth = width;
+				btnHeight = height / btnCount;
+			}
+			
+			btnsSprinkler = new SprinklerButton[cluster.getCount() + 1];
+			btnsSprinkler[0] = new SprinklerButton(cluster, btnWidth, btnHeight);
+			
+			add(btnsSprinkler[0]);
+			
+			int btnsIndex = 1;
+			Iterator<Sprinkler> iterator = cluster.getIterator();
+			while (iterator.hasNext()) {
+				Sprinkler sprinkler = iterator.next();
+				btnsSprinkler[btnsIndex] = new SprinklerButton(sprinkler, btnWidth, btnHeight);
+				add(btnsSprinkler[btnsIndex]);
+				btnsIndex++;
+			}
+		}
 		
-		btnBack.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnBack pressed");
+		public void setBtnTitles() {
+			for (int i = 0; i < btnsSprinkler.length; i++) {
+				btnsSprinkler[i].setBtnTitle();
 			}
-		});
+		}
+		
+		class SprinklerButton extends JButton {
+			private ISprinkler sprinkler;
+			
+			public SprinklerButton(ISprinkler sprinkler, int width, int height) {
+				setPreferredSize(new Dimension(width, height));
+				this.sprinkler = sprinkler;
+				setText(getButtonTitle(sprinkler));
+				
+				addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (sprinkler.isActive()) {
+							sprinkler.deactivate();
+						}
+						else {
+							sprinkler.activate();
+						}
+						setBtnTitles();
+					}
+				});
+			}
+			
+			public void setBtnTitle() {
+				setText(getButtonTitle(sprinkler));
+			}
+			
+			private String getButtonTitle(ISprinkler sprinkler) {
+				String verb;
+				if (sprinkler.isActive()) {
+					verb = "Deactivate ";
+				}
+				else {
+					verb = "Activate ";
+				}
+				
+				if (sprinkler instanceof Sprinkler) {
+					return verb + sprinkler.getId() + " Sprinkler";
+				}
+				else {
+					return verb + sprinkler.getId() + " Cluster";
+				}
+			}
+			
+		}
+		
 	}
+	
 }

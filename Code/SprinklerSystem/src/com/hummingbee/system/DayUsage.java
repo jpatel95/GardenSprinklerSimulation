@@ -3,6 +3,7 @@ package com.hummingbee.system;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@SuppressWarnings("serial")
 public class DayUsage implements Serializable {
 	// data members
 	private LocalDate day;

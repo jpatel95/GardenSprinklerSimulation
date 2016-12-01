@@ -8,8 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
+
+import com.hummingbee.ui.MainUI.UserInterface;
 
 /**
  * Usage class that reads and writes serialized file storing all sprinkler usages
@@ -68,8 +69,9 @@ public class Usage {
 		// write usages map
 		writeTotalUsage(totalUsages);
 		writeSprinklerUsage(sprinklerUsages);
-		// update display
 		
+		// update display
+		UserInterface.getInstance().update();
 	}
 	
 	/**
@@ -125,6 +127,7 @@ public class Usage {
 	 * reads usages from serialized file in resources folder
 	 * @return HashMap<String, Double> of serialized usages, constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, Double> readTotalUsages() {
 		HashMap<String, Double> map;
 		File usagesFile = new File(TOTAL_USAGES_FILE_PATH);
@@ -155,6 +158,7 @@ public class Usage {
 	 * @return HashMap<String, LinkedList<DayUsage>> of serialized usages
 	 * constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, LinkedList<DayUsage>> readSprinklerUsages() {
 		HashMap<String, LinkedList<DayUsage>> map;
 		File usagesFile = new File(SPRINKLER_USAGES_FILE_PATH);

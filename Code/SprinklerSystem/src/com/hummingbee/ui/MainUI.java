@@ -21,6 +21,8 @@ public class MainUI {
 		private static Dimension screenSize = null;
 		private static UserInterface ui = null;
 		
+		private JPanel currentScreen;
+		
 		private UserInterface() {
 			super("User Interface");
 			Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,6 +42,8 @@ public class MainUI {
 
 			container.add(homePanel, BorderLayout.NORTH);
 			container.add(controlPanel, BorderLayout.SOUTH);
+			
+			currentScreen = homePanel;
 			
 //			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
 //			container.add(usagePanel, BorderLayout.NORTH);
@@ -96,6 +100,16 @@ public class MainUI {
 			//ui.getContentPane().repaint();
 			ui.pack();
 			ui.setVisible(true);
+		}
+		
+		public void setCurrentScreen(JPanel screen) {
+			currentScreen = screen;
+		}
+		
+		public void update() {
+			if (currentScreen instanceof UsagePanel) {
+				((UsagePanel) currentScreen).updateGraphs();
+			}
 		}
 	}
 	
