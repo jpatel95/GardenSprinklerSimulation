@@ -74,9 +74,11 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
-				UserInterface.addToContainer(new HomePanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				JPanel screen = new HomePanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87);
+				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
+				UserInterface.getInstance().setCurrentScreen(screen);
 			}
 		});
 		
@@ -100,9 +102,11 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
-				UserInterface.addToContainer(new ConfigPanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				JPanel screen = new ConfigPanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87);
+				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
+				UserInterface.getInstance().setCurrentScreen(screen);
 			}
 		});
 		
@@ -110,9 +114,11 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
-				UserInterface.addToContainer(new UsagePanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87), BorderLayout.NORTH);
+				JPanel screen = new UsagePanel(UserInterface.getUIWidth(),
+						UserInterface.getUIHeight() - 87);
+				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
+				UserInterface.getInstance().setCurrentScreen(screen);
 			}
 		});
 	}

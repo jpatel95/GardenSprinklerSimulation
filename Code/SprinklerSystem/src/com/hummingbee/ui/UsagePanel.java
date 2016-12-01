@@ -51,6 +51,8 @@ public class UsagePanel extends JPanel {
 	private int width;
 	private int height;
 	
+	private String currentGraphs;
+	
 	public UsagePanel(int width, int height) {
 		super(new BorderLayout());
 		
@@ -128,29 +130,75 @@ public class UsagePanel extends JPanel {
 		usages.add(usagesChart, BorderLayout.SOUTH);
 		
 		add(usages, BorderLayout.CENTER);
+		
+		currentGraphs = "Clusters";
 	}
 	
 	private void addActionListeners() {
 		btnNorthCluster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawGraphs(Direction.NORTH);
+				currentGraphs = Direction.NORTH.toString();
 			}
 		});
 		btnEastCluster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawGraphs(Direction.EAST);
+				currentGraphs = Direction.EAST.toString();
 			}
 		});
 		btnSouthCluster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawGraphs(Direction.SOUTH);
+				currentGraphs = Direction.SOUTH.toString();
 			}
 		});
 		btnWestCluster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawGraphs(Direction.WEST);
+				currentGraphs = Direction.WEST.toString();
 			}
 		});
+	}
+	
+	public void updateGraphs() {
+		if (currentGraphs == Direction.NORTH.toString()) {
+			drawGraphs(Direction.NORTH);
+		}
+		else if (currentGraphs == Direction.EAST.toString()) {
+			drawGraphs(Direction.NORTH);
+		}
+		else if (currentGraphs == Direction.SOUTH.toString()) {
+			drawGraphs(Direction.NORTH);
+		}
+		else if (currentGraphs == Direction.WEST.toString()) {
+			drawGraphs(Direction.NORTH);
+		}
+		else {
+			HashMap<String, Double> totalUsages = new HashMap<String, Double>();
+			totalUsages.put(Direction.NORTH.toString(), Garden.getInstance().getTotalClusterUsage(Direction.NORTH));
+			totalUsages.put(Direction.EAST.toString(), Garden.getInstance().getTotalClusterUsage(Direction.EAST));
+			totalUsages.put(Direction.SOUTH.toString(), Garden.getInstance().getTotalClusterUsage(Direction.SOUTH));
+			totalUsages.put(Direction.WEST.toString(), Garden.getInstance().getTotalClusterUsage(Direction.WEST));
+			
+			HashMap<String, LinkedList<DayUsage>> usageHistory = new HashMap<String, LinkedList<DayUsage>>();
+			usageHistory.put(Direction.NORTH.toString(), Garden.getInstance().getCluster(Direction.NORTH).getUsageHistory(7));
+			usageHistory.put(Direction.EAST.toString(), Garden.getInstance().getCluster(Direction.EAST).getUsageHistory(7));
+			usageHistory.put(Direction.SOUTH.toString(), Garden.getInstance().getCluster(Direction.SOUTH).getUsageHistory(7));
+			usageHistory.put(Direction.WEST.toString(), Garden.getInstance().getCluster(Direction.WEST).getUsageHistory(7));
+			
+			remove(usages);
+			usages = new JPanel(new BorderLayout());
+			
+			BarChart usagesChart = new BarChart(totalUsages, (int) (width * 0.7), (int) (height * 0.3));
+			GraphPanel graphPanel = new GraphPanel(usageHistory, (int) (width * 0.7), (int) (height * 0.4));
+			
+			usages.add(graphPanel, BorderLayout.NORTH);
+			usages.add(usagesChart, BorderLayout.SOUTH);
+			add(usages, BorderLayout.CENTER);
+			revalidate();
+			repaint();
+		}
 	}
 	
 	private void drawGraphs(Direction direction) {
