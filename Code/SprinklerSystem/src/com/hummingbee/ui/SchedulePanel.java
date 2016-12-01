@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import org.joda.time.Interval;
 
@@ -25,21 +27,24 @@ public class SchedulePanel extends JPanel{
 	private JComboBox<String> daysStartComboBox;
 	private JComboBox <Integer> hoursStartComboBox, minutesStartComboBox, hoursEndComboBox, minutesEndComboBox;
 	private JButton btnAddInterval, btnCommit;
-	
 	private String [] days = {Days.SUNDAY.toString(), Days.MONDAY.toString(), Days.TUESDAY.toString(),
 			Days.WEDNESDAY.toString(), Days.THURSDAY.toString(), Days.FRIDAY.toString(),
 			Days.SATURDAY.toString()};
 	
 	private List<Integer> hours;
 	private List<Integer> minutes;
+	private JScrollPane jScrollPaneSchedule;
+	private JTextArea textAreaSchedule;
+	private StringBuilder builder;
 	
 	public SchedulePanel(int width, int height){
 		super(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
 		
+		builder = new StringBuilder();
 		hours = new ArrayList<Integer>();
 		minutes = new ArrayList<Integer>();
-		for(Integer i=0;i<=24; ++i){
+		for(Integer i=0;i<24; ++i){
 			hours.add(i);
 		}
 		for(Integer i=0;i<=59; ++i){
@@ -144,6 +149,16 @@ public class SchedulePanel extends JPanel{
 			btnAddInterval = new JButton("Add");
 			btnCommit = new JButton("Commit Changes");
 			
+			textAreaSchedule = new JTextArea();
+			textAreaSchedule.setColumns(40);
+			textAreaSchedule.setLineWrap(true);
+			textAreaSchedule.setRows(5);
+			textAreaSchedule.setWrapStyleWord(true);
+			jScrollPaneSchedule = new JScrollPane(textAreaSchedule);
+	        textAreaSchedule.setEditable(false);
+	        builder.append("Intervals to add:\n");
+	        textAreaSchedule.setText(builder.toString());
+	        
 			JPanel btnPanel = new JPanel();
 			btnPanel.add(btnAddInterval);
 			btnPanel.add(btnCommit);
@@ -153,7 +168,8 @@ public class SchedulePanel extends JPanel{
 			comboPanel.add(hoursEndComboBox);
 			comboPanel.add(lblEndMinute);
 			comboPanel.add(minutesEndComboBox);
-			
+	        comboPanel.add(jScrollPaneSchedule);
+	        
 			this.add(comboPanel, BorderLayout.NORTH);
 			this.add(btnPanel, BorderLayout.CENTER);
 		}

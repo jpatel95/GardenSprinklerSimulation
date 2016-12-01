@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import com.hummingbee.system.Garden;
 import com.hummingbee.system.SystemDate;
 import com.hummingbee.ui.MainUI.UserInterface;
+import com.hummingbee.utils.Formatter;
 
 public class ConfigPanel extends JPanel{
 	private static final int BUTTON_WIDTH = 150;
@@ -67,9 +68,9 @@ public class ConfigPanel extends JPanel{
 		btnActivation = new JButton("Activate");
 		btnStatus = new JButton("Status");
 		
-		lblSystemDate = new JLabel(dateLabelFormatter(SystemDate.getDate()));
-		lblMinThreshold = new JLabel(minThresholdFormatter(Garden.getInstance().getMinThreshold()));
-		lblMaxThreshold = new JLabel(maxThresholdFormatter(Garden.getInstance().getMaxThreshold()));
+		lblSystemDate = new JLabel(Formatter.dateLabelFormatter(SystemDate.getDate()));
+		lblMinThreshold = new JLabel(Formatter.minThresholdFormatter(Garden.getInstance().getMinThreshold()));
+		lblMaxThreshold = new JLabel(Formatter.maxThresholdFormatter(Garden.getInstance().getMaxThreshold()));
 		
 		btnIncrementDay.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnDecrementDay.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -122,24 +123,12 @@ public class ConfigPanel extends JPanel{
 		add(labelPanel, BorderLayout.CENTER);
 	}
 	
-	private String dateLabelFormatter(LocalDate date) {
-		return "System Date: " + date;
-	}
-	
-	private String minThresholdFormatter(double threshold) {
-		return "Min Threshold: " + threshold + " ºF";
-	}
-	
-	private String maxThresholdFormatter(double threshold) {
-		return "Max Threshold: " + threshold + " ºF";
-	}
-	
 	private void setActionListeners(){
 		btnIncrementDay.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SystemDate.addDays(1);
-				lblSystemDate.setText(dateLabelFormatter(SystemDate.getDate()));
+				lblSystemDate.setText(Formatter.dateLabelFormatter(SystemDate.getDate()));
 			}		
 		});
 		
@@ -147,7 +136,7 @@ public class ConfigPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SystemDate.subtractDays(1);
-				lblSystemDate.setText(dateLabelFormatter(SystemDate.getDate()));
+				lblSystemDate.setText(Formatter.dateLabelFormatter(SystemDate.getDate()));
 			}
 		});
 		

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import com.hummingbee.system.Garden;
 import com.hummingbee.ui.MainUI.UserInterface;
+import com.hummingbee.utils.Formatter;
 
 public class ControlPanel extends JPanel {
 	private static final int BUTTON_WIDTH = 160;
@@ -38,7 +39,7 @@ public class ControlPanel extends JPanel {
 		btnUsage = new JButton("View Usage");
 		btnHome = new JButton("Home");
 		
-		lblTemp = new JLabel(getTemperatureFormatter(Garden.getInstance().getTemperature()));
+		lblTemp = new JLabel(Formatter.getTemperatureFormatter(Garden.getInstance().getTemperature()));
 		
 		btnIncTemp.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		btnDecTemp.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -68,10 +69,6 @@ public class ControlPanel extends JPanel {
 		add(lblTemp);
 	}
 	
-	private static String getTemperatureFormatter(double degrees) {
-		return "Temperature: " + degrees + " ºF";
-	}
-	
 	private void setActionListeners(){
 		btnHome.addActionListener(new ActionListener(){
 			@Override
@@ -87,7 +84,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Garden.getInstance().incrementTemperature();
-				lblTemp.setText(getTemperatureFormatter(Garden.getInstance().getTemperature()));
+				lblTemp.setText(Formatter.getTemperatureFormatter(Garden.getInstance().getTemperature()));
 			}
 		});
 		
@@ -95,7 +92,7 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Garden.getInstance().decrementTemperature();
-				lblTemp.setText(getTemperatureFormatter(Garden.getInstance().getTemperature()));
+				lblTemp.setText(Formatter.getTemperatureFormatter(Garden.getInstance().getTemperature()));
 			}
 		});
 		

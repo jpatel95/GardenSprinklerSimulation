@@ -10,6 +10,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.hummingbee.system.Garden;
+import com.hummingbee.utils.Formatter;
+
 public class ThresholdTempPanel extends JPanel{
 	
 	private JLabel lblMin, lblMax;
@@ -58,6 +61,11 @@ public class ThresholdTempPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btnCommit pressed");
+				int max = (int) comboMax.getSelectedItem();
+				int min = (int) comboMin.getSelectedItem();
+				
+				Garden.getInstance().setMaxThreshold(max);
+				Garden.getInstance().setMinThreshold(min);
 			}
 		});
 	}
