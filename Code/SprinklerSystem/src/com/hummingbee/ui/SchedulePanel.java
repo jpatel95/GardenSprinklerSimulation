@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import org.joda.time.Interval;
 
 import com.hummingbee.enums.Days;
+import com.hummingbee.utils.Formatter;
 
 public class SchedulePanel extends JPanel{
 	private Map<Days, List<Interval>> schedule;
@@ -69,6 +70,15 @@ public class SchedulePanel extends JPanel{
 				System.out.println("btnAddInterval pressed");
 				System.out.println(daysStartComboBox.getSelectedItem() + " " +
 						hoursStartComboBox.getSelectedItem() + " " + minutesStartComboBox.getSelectedItem());
+				
+				builder.append("\t" + daysStartComboBox.getSelectedItem() + ", "
+						+ Formatter.integerFormatter((int)hoursStartComboBox.getSelectedItem()) + ":"
+						+ Formatter.integerFormatter((int)minutesStartComboBox.getSelectedItem()) + " to "
+						+ daysStartComboBox.getSelectedItem() + ", "
+						+ Formatter.integerFormatter((int)hoursEndComboBox.getSelectedItem()) + ":"
+						+ Formatter.integerFormatter((int)minutesEndComboBox.getSelectedItem()) + "\n");
+				
+				textAreaSchedule.setText(builder.toString());
 			}
 		});
 		
@@ -156,19 +166,23 @@ public class SchedulePanel extends JPanel{
 			textAreaSchedule.setWrapStyleWord(true);
 			jScrollPaneSchedule = new JScrollPane(textAreaSchedule);
 	        textAreaSchedule.setEditable(false);
-	        builder.append("Intervals to add:\n");
+	        builder.append(" Intervals to add:\n");
 	        textAreaSchedule.setText(builder.toString());
 	        
 			JPanel btnPanel = new JPanel();
 			btnPanel.add(btnAddInterval);
 			btnPanel.add(btnCommit);
 			
-			JPanel comboPanel = new JPanel();
-			comboPanel.add(lblEndHour);
-			comboPanel.add(hoursEndComboBox);
-			comboPanel.add(lblEndMinute);
-			comboPanel.add(minutesEndComboBox);
-	        comboPanel.add(jScrollPaneSchedule);
+			JPanel comboPanel = new JPanel(new BorderLayout());
+			JPanel innerComboPanel = new JPanel();
+			JPanel innerTextAreaPanel = new JPanel();
+			innerComboPanel.add(lblEndHour);
+			innerComboPanel.add(hoursEndComboBox);
+			innerComboPanel.add(lblEndMinute);
+			innerComboPanel.add(minutesEndComboBox);
+			innerTextAreaPanel.add(jScrollPaneSchedule);
+			comboPanel.add(innerComboPanel, BorderLayout.NORTH);
+			comboPanel.add(innerTextAreaPanel, BorderLayout.CENTER);
 	        
 			this.add(comboPanel, BorderLayout.NORTH);
 			this.add(btnPanel, BorderLayout.CENTER);

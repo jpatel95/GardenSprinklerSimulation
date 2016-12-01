@@ -18,4 +18,8 @@ public class Formatter {
 	public static String getTemperatureFormatter(double degrees) {
 		return "Temperature: " + degrees + " ºF";
 	}
+	
+	public static String integerFormatter(int num){
+		return String.format("%02d", num);
+	}
 }
