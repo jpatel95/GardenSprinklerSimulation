@@ -39,7 +39,7 @@ public class UpdateTimer {
 					activeSprinklers.put(sprinkler, now);
 				}
 			}
-		}, UPDATE_INTERVAL * 1000);
+		}, UPDATE_INTERVAL * 1000, UPDATE_INTERVAL * 1000);
 	}
 	
 	/**

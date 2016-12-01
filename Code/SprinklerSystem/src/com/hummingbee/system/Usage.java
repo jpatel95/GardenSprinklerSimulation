@@ -8,8 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
+
+import com.hummingbee.ui.MainUI.UserInterface;
 
 /**
  * Usage class that reads and writes serialized file storing all sprinkler usages
@@ -68,8 +69,9 @@ public class Usage {
 		// write usages map
 		writeTotalUsage(totalUsages);
 		writeSprinklerUsage(sprinklerUsages);
-		// update display
 		
+		// update display
+		UserInterface.getInstance().update();
 	}
 	
 	/**

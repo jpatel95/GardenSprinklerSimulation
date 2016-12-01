@@ -162,7 +162,7 @@ public class SprinklerCluster implements ISprinkler {
 	public void addSprinkler() {
 		int id = nextId.get(clusterId);
 		Sprinkler sprinkler = new Sprinkler(clusterId.toString() + id);
-		nextId.put(clusterId, id++);
+		nextId.put(clusterId, ++id);
 		
 		sprinklerMap.put(sprinkler.getId(), sprinkler);
 	}
