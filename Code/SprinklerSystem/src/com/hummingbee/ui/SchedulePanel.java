@@ -88,7 +88,8 @@ public class SchedulePanel extends JPanel{
 				LocalTime tEnd = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
 				TimeInterval interval = new TimeInterval(tStart, tEnd);
 
-				schedule.get(daysStartComboBox.getSelectedItem()).add(interval.toInterval());
+				//System.out.println("Combobox value: " + daysStartComboBox.getSelectedItem());
+				schedule.get(Days.fromString((String) daysStartComboBox.getSelectedItem())).add(interval.toInterval());
 				textAreaSchedule.setText(builder.toString());
 			}
 		});
