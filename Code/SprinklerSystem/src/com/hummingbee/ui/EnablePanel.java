@@ -18,11 +18,11 @@ import com.hummingbee.system.ISprinkler;
 import com.hummingbee.system.Sprinkler;
 import com.hummingbee.system.SprinklerCluster;
 
-public class ActivationPanel extends JPanel{
+public class EnablePanel extends JPanel {
 	private ClusterPanel northClusterPanel, eastClusterPanel, southClusterPanel, westClusterPanel;
 	private JLabel titleLabel;
 	
-	public ActivationPanel(int width, int height){
+	public EnablePanel(int width, int height){
 		super(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
 		
@@ -31,7 +31,7 @@ public class ActivationPanel extends JPanel{
 		southClusterPanel = new ClusterPanel(Direction.SOUTH, width, (int) (height * 0.15));
 		westClusterPanel = new ClusterPanel(Direction.WEST, (int) (width * 0.15), (int) (height * 0.7));
 		
-		titleLabel = new JLabel("Toggle sprinkler and sprinkler cluster activation");
+		titleLabel = new JLabel("Toggle sprinkler and sprinkler cluster functionality");
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
 		titleLabel.setVerticalAlignment(JLabel.CENTER);
@@ -98,15 +98,14 @@ public class ActivationPanel extends JPanel{
 				setPreferredSize(new Dimension(width, height));
 				this.sprinkler = sprinkler;
 				setText(getButtonTitle(sprinkler));
-				checkFunctional();
 				
 				addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (sprinkler.isActive()) {
-							sprinkler.deactivate();
+						if (sprinkler.isFunctional()) {
+							sprinkler.setFunctional(false);
 						}
 						else {
-							sprinkler.activate();
+							sprinkler.setFunctional(true);
 						}
 						setBtnTitles();
 					}
@@ -119,11 +118,11 @@ public class ActivationPanel extends JPanel{
 			
 			private String getButtonTitle(ISprinkler sprinkler) {
 				String verb;
-				if (sprinkler.isActive()) {
-					verb = "Deactivate ";
+				if (sprinkler.isFunctional()) {
+					verb = "Disable ";
 				}
 				else {
-					verb = "Activate ";
+					verb = "Enable ";
 				}
 				
 				if (sprinkler instanceof Sprinkler) {
@@ -131,12 +130,6 @@ public class ActivationPanel extends JPanel{
 				}
 				else {
 					return verb + sprinkler.getId() + " Cluster";
-				}
-			}
-			
-			private void checkFunctional() {
-				if (!sprinkler.isFunctional()) {
-					setEnabled(false);
 				}
 			}
 			
