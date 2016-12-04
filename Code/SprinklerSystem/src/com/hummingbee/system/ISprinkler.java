@@ -10,6 +10,7 @@ import java.util.LinkedList;
 public interface ISprinkler {
 	public boolean isActive();
 	public boolean isFunctional();
+	public void setFunctional(boolean functional);
 	public double getWaterFlow();
 	public double getTotalUsage();
 	public double getUsage(int dayLookback);
