@@ -96,4 +96,8 @@ public class Garden {
 	public LocalTime getTime() {
 		return date.getTime();
 	}
+	
+	public Schedule getSchedule(){
+		return schedule;
+	}
 }

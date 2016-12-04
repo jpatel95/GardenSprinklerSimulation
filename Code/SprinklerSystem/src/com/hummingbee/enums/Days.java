@@ -17,6 +17,7 @@ public enum Days {
 	
 	private String dayString;
 	
+	
 	private Days(String str){
 		this.dayString = str;
 	}
@@ -25,4 +26,15 @@ public enum Days {
 	public String toString(){
 		return dayString;
 	}
+	
+	public static Days fromString(String text) {
+	    if (text != null) {
+	      for (Days b : Days.values()) {
+	        if (text.equalsIgnoreCase(b.toString())) {
+	          return b;
+	        }
+	      }
+	    }
+	    return null;
+	  }
 }

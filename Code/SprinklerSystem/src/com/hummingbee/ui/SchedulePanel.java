@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import com.hummingbee.enums.Days;
+import com.hummingbee.system.Garden;
+import com.hummingbee.utils.Formatter;
+import com.hummingbee.utils.TimeInterval;
 
 public class SchedulePanel extends JPanel{
 	private Map<Days, List<Interval>> schedule;
@@ -69,14 +76,30 @@ public class SchedulePanel extends JPanel{
 				System.out.println("btnAddInterval pressed");
 				System.out.println(daysStartComboBox.getSelectedItem() + " " +
 						hoursStartComboBox.getSelectedItem() + " " + minutesStartComboBox.getSelectedItem());
+				
+				builder.append("\t" + daysStartComboBox.getSelectedItem() + ", "
+						+ Formatter.integerFormatter((int)hoursStartComboBox.getSelectedItem()) + ":"
+						+ Formatter.integerFormatter((int)minutesStartComboBox.getSelectedItem()) + " to "
+						+ daysStartComboBox.getSelectedItem() + ", "
+						+ Formatter.integerFormatter((int)hoursEndComboBox.getSelectedItem()) + ":"
+						+ Formatter.integerFormatter((int)minutesEndComboBox.getSelectedItem()) + "\n");
+				
+				LocalTime tStart = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
+				LocalTime tEnd = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
+				TimeInterval interval = new TimeInterval(tStart, tEnd);
+
+				//System.out.println("Combobox value: " + daysStartComboBox.getSelectedItem());
+				schedule.get(Days.fromString((String) daysStartComboBox.getSelectedItem())).add(interval.toInterval());
+				textAreaSchedule.setText(builder.toString());
 			}
 		});
 		
 		btnCommit.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnCommit pressed");
+				System.out.println("btnCommit pressed schedule beign set.");
 				System.out.println(schedule);
+				Garden.getInstance().getSchedule().setSchedule(schedule);
 			}
 		});
 	}
@@ -156,19 +179,23 @@ public class SchedulePanel extends JPanel{
 			textAreaSchedule.setWrapStyleWord(true);
 			jScrollPaneSchedule = new JScrollPane(textAreaSchedule);
 	        textAreaSchedule.setEditable(false);
-	        builder.append("Intervals to add:\n");
+	        builder.append(" Intervals to add:\n");
 	        textAreaSchedule.setText(builder.toString());
 	        
 			JPanel btnPanel = new JPanel();
 			btnPanel.add(btnAddInterval);
 			btnPanel.add(btnCommit);
 			
-			JPanel comboPanel = new JPanel();
-			comboPanel.add(lblEndHour);
-			comboPanel.add(hoursEndComboBox);
-			comboPanel.add(lblEndMinute);
-			comboPanel.add(minutesEndComboBox);
-	        comboPanel.add(jScrollPaneSchedule);
+			JPanel comboPanel = new JPanel(new BorderLayout());
+			JPanel innerComboPanel = new JPanel();
+			JPanel innerTextAreaPanel = new JPanel();
+			innerComboPanel.add(lblEndHour);
+			innerComboPanel.add(hoursEndComboBox);
+			innerComboPanel.add(lblEndMinute);
+			innerComboPanel.add(minutesEndComboBox);
+			innerTextAreaPanel.add(jScrollPaneSchedule);
+			comboPanel.add(innerComboPanel, BorderLayout.NORTH);
+			comboPanel.add(innerTextAreaPanel, BorderLayout.CENTER);
 	        
 			this.add(comboPanel, BorderLayout.NORTH);
 			this.add(btnPanel, BorderLayout.CENTER);
