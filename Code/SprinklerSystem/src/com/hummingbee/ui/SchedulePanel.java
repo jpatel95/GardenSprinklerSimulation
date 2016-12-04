@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import com.hummingbee.enums.Days;
+import com.hummingbee.system.Garden;
 import com.hummingbee.utils.Formatter;
+import com.hummingbee.utils.TimeInterval;
 
 public class SchedulePanel extends JPanel{
 	private Map<Days, List<Interval>> schedule;
@@ -78,6 +84,11 @@ public class SchedulePanel extends JPanel{
 						+ Formatter.integerFormatter((int)hoursEndComboBox.getSelectedItem()) + ":"
 						+ Formatter.integerFormatter((int)minutesEndComboBox.getSelectedItem()) + "\n");
 				
+				LocalTime tStart = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
+				LocalTime tEnd = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
+				TimeInterval interval = new TimeInterval(tStart, tEnd);
+
+				schedule.get(daysStartComboBox.getSelectedItem()).add(interval.toInterval());
 				textAreaSchedule.setText(builder.toString());
 			}
 		});
@@ -85,8 +96,9 @@ public class SchedulePanel extends JPanel{
 		btnCommit.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("btnCommit pressed");
+				System.out.println("btnCommit pressed schedule beign set.");
 				System.out.println(schedule);
+				Garden.getInstance().getSchedule().setSchedule(schedule);
 			}
 		});
 	}
