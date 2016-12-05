@@ -45,7 +45,7 @@ public class Sprinkler implements ISprinkler {
 	}
 	
 	public void activate() {
-		if (!active) {
+		if (!active && functional) {
 			active = true;
 			UpdateTimer.addSprinkler(this);
 		}

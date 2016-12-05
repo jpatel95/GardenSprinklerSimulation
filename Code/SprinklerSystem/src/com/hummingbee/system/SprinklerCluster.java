@@ -63,6 +63,15 @@ public class SprinklerCluster implements ISprinkler {
 		
 		return true;
 	}
+	
+	@Override
+	public void setFunctional(boolean functionality) {
+		Iterator<Sprinkler> iterator = getIterator();
+		while (iterator.hasNext()) {
+			Sprinkler sprinkler = iterator.next();
+			sprinkler.setFunctional(functionality);
+		}
+	}
 
 	/**
 	 * returns the total water flow of the cluster
