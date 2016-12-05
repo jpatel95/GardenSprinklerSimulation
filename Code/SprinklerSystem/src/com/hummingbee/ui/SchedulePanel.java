@@ -85,7 +85,7 @@ public class SchedulePanel extends JPanel{
 						+ Formatter.integerFormatter((int)minutesEndComboBox.getSelectedItem()) + "\n");
 				
 				LocalTime tStart = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
-				LocalTime tEnd = new LocalTime(hoursStartComboBox.getSelectedItem() + ":" + minutesStartComboBox.getSelectedItem() + ":00");
+				LocalTime tEnd = new LocalTime(hoursEndComboBox.getSelectedItem() + ":" + minutesEndComboBox.getSelectedItem() + ":00");
 				TimeInterval interval = new TimeInterval(tStart, tEnd);
 
 				//System.out.println("Combobox value: " + daysStartComboBox.getSelectedItem());
