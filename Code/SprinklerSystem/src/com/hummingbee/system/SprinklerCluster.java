@@ -1,7 +1,5 @@
 package com.hummingbee.system;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,23 +11,23 @@ public class SprinklerCluster implements ISprinkler {
 	// map of sprinkler ids to sprinklers in cluster
 	private HashMap<String, Sprinkler> sprinklerMap;
 	// sprinkler cluster location
-	private String clusterId;
+	private Direction clusterId;
 	// next sprinkler id
-	private static int nextId = 1;
+	private static HashMap<Direction, Integer> nextId;
 	
 	public SprinklerCluster() {
 		sprinklerMap = new HashMap<String, Sprinkler>();
 		clusterId = null;
 	}
 	
-	public SprinklerCluster(String location) {
-		sprinklerMap = new HashMap<String, Sprinkler>();
-		clusterId = location;
-	}
-	
 	public SprinklerCluster(Direction location) {
 		sprinklerMap = new HashMap<String, Sprinkler>();
-		clusterId = location.toString();
+		clusterId = location;
+		nextId = new HashMap<Direction, Integer>();
+		nextId.put(Direction.NORTH, 1);
+		nextId.put(Direction.EAST, 1);
+		nextId.put(Direction.SOUTH, 1);
+		nextId.put(Direction.WEST, 1);
 	}
 
 	/**
@@ -65,6 +63,15 @@ public class SprinklerCluster implements ISprinkler {
 		
 		return true;
 	}
+	
+	@Override
+	public void setFunctional(boolean functionality) {
+		Iterator<Sprinkler> iterator = getIterator();
+		while (iterator.hasNext()) {
+			Sprinkler sprinkler = iterator.next();
+			sprinkler.setFunctional(functionality);
+		}
+	}
 
 	/**
 	 * returns the total water flow of the cluster
@@ -98,7 +105,6 @@ public class SprinklerCluster implements ISprinkler {
 	@Override
 	public LinkedList<DayUsage> getUsageHistory(int daysLookback) {
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
-		HashMap<LocalDate, Double> dailyUsages = new HashMap<LocalDate, Double>();
 		Iterator<Sprinkler> sprinklerIterator = sprinklerMap.values().iterator();
 		
 		// loop through all spinklers in the cluster
@@ -134,7 +140,7 @@ public class SprinklerCluster implements ISprinkler {
 
 	@Override
 	public String getId() {
-		return clusterId;
+		return clusterId.toString();
 	}
 
 	/**
@@ -160,8 +166,9 @@ public class SprinklerCluster implements ISprinkler {
 	}
 	
 	public void addSprinkler() {
-		Sprinkler sprinkler = new Sprinkler(clusterId + Integer.toString(nextId));
-		nextId++;
+		int id = nextId.get(clusterId);
+		Sprinkler sprinkler = new Sprinkler(clusterId.toString() + id);
+		nextId.put(clusterId, ++id);
 		
 		sprinklerMap.put(sprinkler.getId(), sprinkler);
 	}

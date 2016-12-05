@@ -17,7 +17,7 @@ public class ScheduleTester {
 	}
 	
 	public static void testMergeValid(){
-		Schedule s1 = Schedule.getInstance();
+		Schedule s1 = new Schedule();
 		
 		Map<Days, List<Interval>> schedule = new HashMap<Days, List<Interval>>();
 		schedule.put(Days.MONDAY, new ArrayList<Interval>());

@@ -8,8 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
+
+import com.hummingbee.ui.MainUI.UserInterface;
 
 /**
  * Usage class that reads and writes serialized file storing all sprinkler usages
@@ -53,8 +54,8 @@ public class Usage {
 		else {
 			lastUpdate = sprinklerUsage.getFirst();
 			// if the day of last update isn't today
-			if (!lastUpdate.getDay().equals(SystemDate.getDate())) {
-				DayUsage dayUsage = new DayUsage(SystemDate.getDate(), usage);
+			if (!lastUpdate.getDay().equals(Garden.getInstance().getDate())) {
+				DayUsage dayUsage = new DayUsage(Garden.getInstance().getDate(), usage);
 				sprinklerUsage.addFirst(dayUsage);
 			}
 			else {
@@ -68,8 +69,9 @@ public class Usage {
 		// write usages map
 		writeTotalUsage(totalUsages);
 		writeSprinklerUsage(sprinklerUsages);
-		// update display
 		
+		// update display
+		UserInterface.getInstance().update();
 	}
 	
 	/**
@@ -100,14 +102,18 @@ public class Usage {
 			sprinklerUsages = readSprinklerUsages();
 		}
 		
-		LocalDate lookBack = SystemDate.getDate();
+		LocalDate lookBack = Garden.getInstance().getDate();
 		LinkedList<DayUsage> result = new LinkedList<DayUsage>();
-		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.get(sprinklerId);
-		Iterator<DayUsage> iterator = sprinklerUsage.iterator();
-		while (daysLookback >= 0 && iterator.hasNext()) {
-			DayUsage dayUsage = iterator.next();
+		LinkedList<DayUsage> sprinklerUsage = sprinklerUsages.containsKey(sprinklerId) ?
+				sprinklerUsages.get(sprinklerId) : new LinkedList<DayUsage>();
+				
+		int sprinklerUsageIndex = 0;
+		while (daysLookback >= 0 && sprinklerUsageIndex < sprinklerUsage.size()) {
+			DayUsage dayUsage = sprinklerUsage.get(sprinklerUsageIndex);
+
 			if (lookBack.isEqual(dayUsage.getDay())) {
 				result.add(dayUsage);
+				sprinklerUsageIndex++;
 			}
 			
 			daysLookback--;
@@ -121,6 +127,7 @@ public class Usage {
 	 * reads usages from serialized file in resources folder
 	 * @return HashMap<String, Double> of serialized usages, constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, Double> readTotalUsages() {
 		HashMap<String, Double> map;
 		File usagesFile = new File(TOTAL_USAGES_FILE_PATH);
@@ -151,6 +158,7 @@ public class Usage {
 	 * @return HashMap<String, LinkedList<DayUsage>> of serialized usages
 	 * constructs a new HashMap if file doesn't exist
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<String, LinkedList<DayUsage>> readSprinklerUsages() {
 		HashMap<String, LinkedList<DayUsage>> map;
 		File usagesFile = new File(SPRINKLER_USAGES_FILE_PATH);

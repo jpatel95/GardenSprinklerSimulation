@@ -8,57 +8,51 @@ import java.util.concurrent.TimeUnit;
 
 import com.hummingbee.enums.Direction;
 import com.hummingbee.system.DayUsage;
+import com.hummingbee.system.Garden;
 import com.hummingbee.system.Sprinkler;
 import com.hummingbee.system.SprinklerCluster;
 import com.hummingbee.system.Usage;
 
 public class UsageTester {
 	public static void main(String[] args) {
-//		Usage.resetUsages();
-//		HashMap<String, Double> map;
-//		HashMap<String, LinkedList<DayUsage>> sprinklerMap;
-//		n1.activate();
-//		try {
-//			TimeUnit.SECONDS.sleep((long) 2);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		n2.activate();
-//		try {
-//			TimeUnit.SECONDS.sleep((long) 15);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		n1.deactivate();
-//		n2.deactivate();
-//		
-//		map = Usage.readTotalUsages();
-//		System.out.println("Total Usages: ");
-//		printMap(map);
-		
-//		sprinklerMap = Usage.readSprinklerUsages();
-//		System.out.println("Sprinkler Usages: ");
-//		printSprinklerMap(sprinklerMap);
-//		SprinklerCluster northCluster = new SprinklerCluster(Direction.NORTH);
-//		northCluster.addSprinkler();
-//		northCluster.addSprinkler();
+		//Usage.resetUsages();
+		Garden garden = Garden.getInstance();
+		SprinklerCluster northCluster = garden.getCluster(Direction.NORTH);
 //		northCluster.activate();
 //		try {
-//			TimeUnit.SECONDS.sleep((long) 15);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
+//			Thread.sleep(5000);
+//		}
+//		catch (Exception e) {
 //			e.printStackTrace();
 //		}
 //		northCluster.deactivate();
-//		
-//		LinkedList<DayUsage> usages = northCluster.getUsageHistory(7);
-//		Iterator<DayUsage> iterator = usages.iterator();
-//		while (iterator.hasNext()) {
-//			DayUsage dayUsage = iterator.next();
-//			System.out.println(dayUsage.getDay() + ": " + dayUsage.getUsage());
+		
+		System.out.println(northCluster.getId() + ": " + northCluster.getTotalUsage() + "\n");
+		
+//		HashMap<String, LinkedList<DayUsage>> sprinklerUsages = Usage.readSprinklerUsages();
+//		Iterator<String> keyIterator = sprinklerUsages.keySet().iterator();
+//		while (keyIterator.hasNext()) {
+//			String key = keyIterator.next();
+//			LinkedList<DayUsage> usages = sprinklerUsages.get(key);
+//			Iterator<DayUsage> usagesIterator = usages.iterator();
+//			System.out.println(key);
+//			while (usagesIterator.hasNext()) {
+//				DayUsage dayUsage = usagesIterator.next();
+//				System.out.println(dayUsage.getDay().toString() + ": " + dayUsage.getUsage());
+//			}
 //		}
+		
+//		Iterator<Sprinkler> iterator = northCluster.getIterator();
+//		while (iterator.hasNext()) {
+//			Sprinkler sprinkler = iterator.next();
+//			Iterator<DayUsage> usageIterator = sprinkler.getUsageHistory(7).iterator();
+//			System.out.println(sprinkler.getId());
+//			while (usageIterator.hasNext()) {
+//				DayUsage dayUsage = usageIterator.next();
+//				System.out.println(dayUsage.getDay().toString() + ": " + dayUsage.getUsage());
+//			}
+//		}
+		
 	}
 	
 	private static void printMap(HashMap<String, Double> map) {

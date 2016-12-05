@@ -11,7 +11,7 @@ import com.hummingbee.enums.Days;
 import org.joda.time.Interval;
 
 /**
- * The schedule class is a singleton class that is used to maintain the watering schedule of
+ * The schedule class is a class that is used to maintain the watering schedule of
  * the sprinkler system. The data structure that is used is a HashMap with a day enum as a key
  * and a list of intervals as the value. The interval object, provided by the Joda jar, are then 
  * merged and put in the schedule map.
@@ -21,11 +21,9 @@ import org.joda.time.Interval;
  *
  */
 public class Schedule {
-	private static Schedule instance = null;
 	private Map<Days, List<Interval>> schedule;
 	
-	//Private constructor for the singleton class.
-	private Schedule(){
+	public Schedule(){
 		initializeSchedule();
 	}
 	
@@ -37,14 +35,6 @@ public class Schedule {
 	//Returns a list of intervals, the schedule for a particular day.
 	public List<Interval> getScheduleForDay(Days day){
 		return schedule.get(day);
-	}
-	
-	//Getter for the single instance of the class.
-	public static Schedule getInstance() {
-		if(instance == null) {
-				instance = new Schedule();
-		}
-		return instance;
 	}
 	
 	//Sets the schedule map with that passed in the param.

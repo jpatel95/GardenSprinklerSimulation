@@ -1,7 +1,7 @@
 package com.hummingbee.system;
 
 /**
- * The following class is a singleton class that will be used to maintain the ambient temperature
+ * The following class is a class that will be used to maintain the ambient temperature
  * for the system. It will also maintain the min and max temperature thresholds that will
  * automatically turn on/off the system.
  * 
@@ -9,7 +9,6 @@ package com.hummingbee.system;
  *
  */
 public class Thermometer {
-	private static Thermometer instance = null;
 	private double degreesFarenheit;
 	private double minThreshold;
 	private double maxThreshold;
@@ -17,19 +16,16 @@ public class Thermometer {
 	private final int MIN_TEMP = 0;
 	private final int MAX_TEMP = 125;
 	
-	//Private constructor for Singleton Class
-	private Thermometer(){
+	public Thermometer() {
 		this.degreesFarenheit = 60.0;
-		this.minThreshold = 50.0;
-		this.maxThreshold = 90.0;
+		minThreshold = 50.0;
+		maxThreshold = 90.0;
 	}
 	
-	//Getter for the single instance of the class.
-	public static Thermometer getInstance() {
-		if(instance == null) {
-				instance = new Thermometer();
-		}
-		return instance;
+	public Thermometer(int minThreshold, int maxThreshold){
+		this.degreesFarenheit = 60.0;
+		this.minThreshold = minThreshold;
+		this.maxThreshold = maxThreshold;
 	}
 	
 	//Method to increment the temperature
@@ -94,7 +90,7 @@ public class Thermometer {
 		return this.degreesFarenheit;
 	}
 	
-	public double getMinTheshold(){
+	public double getMinThreshold(){
 		return this.minThreshold;
 	}
 	
