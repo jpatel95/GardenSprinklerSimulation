@@ -166,13 +166,13 @@ public class UsagePanel extends JPanel {
 			drawGraphs(Direction.NORTH);
 		}
 		else if (currentGraphs == Direction.EAST.toString()) {
-			drawGraphs(Direction.NORTH);
+			drawGraphs(Direction.EAST);
 		}
 		else if (currentGraphs == Direction.SOUTH.toString()) {
-			drawGraphs(Direction.NORTH);
+			drawGraphs(Direction.SOUTH);
 		}
 		else if (currentGraphs == Direction.WEST.toString()) {
-			drawGraphs(Direction.NORTH);
+			drawGraphs(Direction.WEST);
 		}
 		else {
 			HashMap<String, Double> totalUsages = new HashMap<String, Double>();
