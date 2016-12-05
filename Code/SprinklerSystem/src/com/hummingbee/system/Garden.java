@@ -59,6 +59,10 @@ public class Garden {
 	
 	public void incrementTemperature() {
 		thermometer.incrementTemperature();
+		if(thermometer.getTemperature()>=thermometer.getMinThreshold()
+				&& thermometer.getTemperature()<=thermometer.getMaxThreshold()) {
+			//do something
+		}
 	}
 	
 	public void decrementTemperature() {
