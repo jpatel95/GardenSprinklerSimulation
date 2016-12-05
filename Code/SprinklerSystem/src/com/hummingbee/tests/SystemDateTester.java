@@ -1,9 +1,9 @@
 package com.hummingbee.tests;
 
-import com.hummingbee.system.SystemDate;
+import com.hummingbee.system.Garden;
 
 public class SystemDateTester {
 	public static void main(String[] args) {
-		SystemDate date = new SystemDate();
+		Garden.getInstance();
 	}
 }

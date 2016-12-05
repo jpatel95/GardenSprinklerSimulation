@@ -3,6 +3,7 @@ package com.hummingbee.system;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.hummingbee.enums.Direction;
 
@@ -103,5 +104,28 @@ public class Garden {
 	
 	public Schedule getSchedule(){
 		return schedule;
+	}
+	
+	public boolean isActive() {
+		Iterator<SprinklerCluster> clusterIterator = clusters.values().iterator();
+		while (clusterIterator.hasNext()) {
+			SprinklerCluster cluster = clusterIterator.next();
+			Iterator<Sprinkler> sprinklerIterator = cluster.getIterator();
+			while (sprinklerIterator.hasNext()) {
+				Sprinkler sprinkler = sprinklerIterator.next();
+				if (!sprinkler.isActive()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public void activateSprinklers() {
+		Iterator<SprinklerCluster> clusterIterator = clusters.values().iterator();
+		while (clusterIterator.hasNext()) {
+			SprinklerCluster cluster = clusterIterator.next();
+			cluster.activate();
+		}
 	}
 }
