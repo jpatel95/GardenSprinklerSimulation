@@ -62,16 +62,12 @@ public class Garden {
 		thermometer.incrementTemperature();
 		if(thermometer.getTemperature()>=thermometer.getMaxThreshold()) {
 			activateSprinklers();
-		} else {
-			deactivateSprinklers();
 		}
 	}
 	
 	public void decrementTemperature() {
 		thermometer.decrementTemperature();
 		if(thermometer.getTemperature()<=thermometer.getMinThreshold()) {
-			activateSprinklers();
-		} else {
 			deactivateSprinklers();
 		}
 	}
