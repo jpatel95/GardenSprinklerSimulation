@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -91,12 +93,13 @@ public class ActivationPanel extends JPanel{
 			}
 		}
 		
-		class SprinklerButton extends JButton {
+		class SprinklerButton extends JButton implements Observer {
 			private ISprinkler sprinkler;
 			
 			public SprinklerButton(ISprinkler sprinkler, int width, int height) {
 				setPreferredSize(new Dimension(width, height));
 				this.sprinkler = sprinkler;
+				sprinkler.addObserver(this);
 				setText(getButtonTitle(sprinkler));
 				checkFunctional();
 				
@@ -138,6 +141,11 @@ public class ActivationPanel extends JPanel{
 				if (!sprinkler.isFunctional()) {
 					setEnabled(false);
 				}
+			}
+
+			@Override
+			public void update(Observable observable, Object active) {
+				setBtnTitle();
 			}
 			
 		}
