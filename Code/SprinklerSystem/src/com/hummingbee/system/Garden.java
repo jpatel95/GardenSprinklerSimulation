@@ -115,7 +115,7 @@ public class Garden {
 			Iterator<Sprinkler> sprinklerIterator = cluster.getIterator();
 			while (sprinklerIterator.hasNext()) {
 				Sprinkler sprinkler = sprinklerIterator.next();
-				if (!sprinkler.isActive()) {
+				if (sprinkler.isFunctional() && !sprinkler.isActive()) {
 					return false;
 				}
 			}

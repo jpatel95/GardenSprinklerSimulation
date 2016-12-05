@@ -63,6 +63,7 @@ public class SystemDate {
 							// activate all sprinklers
 							System.out.println("Current time is in the interval");
 							garden.activateSprinklers();
+							break;
 						}
 					}
 				}

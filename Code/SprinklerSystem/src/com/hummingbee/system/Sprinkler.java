@@ -46,6 +46,7 @@ public class Sprinkler implements ISprinkler {
 	
 	public void activate() {
 		if (!active && functional) {
+			System.out.println("adding a sprinkler to update timer");
 			active = true;
 			UpdateTimer.addSprinkler(this);
 		}
@@ -58,6 +59,9 @@ public class Sprinkler implements ISprinkler {
 	
 	public void setFunctional(boolean functional) {
 		this.functional = functional;
+		if (!functional) {
+			deactivate();
+		}
 	}
 	
 	public String getId() {

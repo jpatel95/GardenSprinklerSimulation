@@ -28,10 +28,10 @@ public class UpdateTimer {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			public void run() {
-				//System.out.println("usage update interval");
 				Iterator<Sprinkler> iterator = activeSprinklers.keySet().iterator();
 				while (iterator.hasNext()) {
 					Sprinkler sprinkler = iterator.next();
+				
 					Date lastUpdate = activeSprinklers.get(sprinkler);
 					Date now = new Date();
 					double elapsedSeconds = (now.getTime() - lastUpdate.getTime()) / 1000;
@@ -46,7 +46,9 @@ public class UpdateTimer {
 	 * stop the timer
 	 */
 	private static void stop() {
-		timer.cancel();
+		if (timer != null) {
+			timer.cancel();
+		}
 	}
 	
 	/**
