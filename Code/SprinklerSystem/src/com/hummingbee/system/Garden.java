@@ -60,14 +60,20 @@ public class Garden {
 	
 	public void incrementTemperature() {
 		thermometer.incrementTemperature();
-		if(thermometer.getTemperature()>=thermometer.getMinThreshold()
-				&& thermometer.getTemperature()<=thermometer.getMaxThreshold()) {
-			//do something
+		if(thermometer.getTemperature()>=thermometer.getMaxThreshold()) {
+			activateSprinklers();
+		} else {
+			deactivateSprinklers();
 		}
 	}
 	
 	public void decrementTemperature() {
 		thermometer.decrementTemperature();
+		if(thermometer.getTemperature()<=thermometer.getMinThreshold()) {
+			activateSprinklers();
+		} else {
+			deactivateSprinklers();
+		}
 	}
 	
 	public double getMinThreshold() {
@@ -126,6 +132,14 @@ public class Garden {
 		while (clusterIterator.hasNext()) {
 			SprinklerCluster cluster = clusterIterator.next();
 			cluster.activate();
+		}
+	}
+	
+	public void deactivateSprinklers() {
+		Iterator<SprinklerCluster> clusterIterator = clusters.values().iterator();
+		while (clusterIterator.hasNext()) {
+			SprinklerCluster cluster = clusterIterator.next();
+			cluster.deactivate();
 		}
 	}
 }
