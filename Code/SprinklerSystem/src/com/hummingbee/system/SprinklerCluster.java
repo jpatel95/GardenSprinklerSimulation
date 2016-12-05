@@ -3,10 +3,11 @@ package com.hummingbee.system;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import com.hummingbee.enums.Direction;
 
-public class SprinklerCluster implements ISprinkler {
+public class SprinklerCluster extends Observable implements ISprinkler {
 	// data members
 	// map of sprinkler ids to sprinklers in cluster
 	private HashMap<String, Sprinkler> sprinklerMap;
@@ -153,6 +154,8 @@ public class SprinklerCluster implements ISprinkler {
 			Sprinkler current = sprinklerIterator.next();
 			current.activate();
 		}
+		setChanged();
+		notifyObservers(isActive());
 	}
 
 	@Override
@@ -162,7 +165,8 @@ public class SprinklerCluster implements ISprinkler {
 			Sprinkler current = sprinklerIterator.next();
 			current.deactivate();
 		}
-		
+		setChanged();
+		notifyObservers(isActive());
 	}
 	
 	public void addSprinkler() {

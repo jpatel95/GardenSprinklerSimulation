@@ -3,13 +3,14 @@ package com.hummingbee.system;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Observable;
 
 /**
  * Sprinkler class defines a single Sprinkler node
  * @author Nick
  *
  */
-public class Sprinkler implements ISprinkler {
+public class Sprinkler extends Observable implements ISprinkler {
 	// constants
 	// water flow cubic feet per minute (second in real time)
 	private static final double WATER_FLOW = 0.5;
@@ -41,14 +42,17 @@ public class Sprinkler implements ISprinkler {
 		if (active) {
 			active = false;
 			UpdateTimer.removeSprinkler(this);
+			setChanged();
+			notifyObservers(active);
 		}
 	}
 	
 	public void activate() {
 		if (!active && functional) {
-			System.out.println("adding a sprinkler to update timer");
 			active = true;
 			UpdateTimer.addSprinkler(this);
+			setChanged();
+			notifyObservers(active);
 		}
 	}
 	
