@@ -4,11 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import com.hummingbee.enums.Direction;
+import com.hummingbee.system.Garden;
+import com.hummingbee.system.Sprinkler;
 
 public class StatusPanel extends JPanel{
 	private JScrollPane jScrollPaneFunctional, jScrollPaneNonFunctional;
@@ -25,7 +30,7 @@ public class StatusPanel extends JPanel{
 		textAreaFunctional = new JTextArea();
 		textAreaFunctional.setColumns(40);
 		textAreaFunctional.setLineWrap(true);
-		textAreaFunctional.setRows(5);
+		textAreaFunctional.setRows(15);
 		textAreaFunctional.setWrapStyleWord(true);
 		jScrollPaneFunctional = new JScrollPane(textAreaFunctional);
         textAreaFunctional.setEditable(false);
@@ -34,7 +39,7 @@ public class StatusPanel extends JPanel{
         textAreaNonFunctional = new JTextArea();
 		textAreaNonFunctional.setColumns(40);
 		textAreaNonFunctional.setLineWrap(true);
-		textAreaNonFunctional.setRows(5);
+		textAreaNonFunctional.setRows(15);
 		textAreaNonFunctional.setWrapStyleWord(true);
 		jScrollPaneNonFunctional = new JScrollPane(textAreaNonFunctional);
         textAreaNonFunctional.setEditable(false);
@@ -58,6 +63,47 @@ public class StatusPanel extends JPanel{
 	private void setStringBuilders(){
 		functionalBuilder.append("Functional Sprinklers:\n");
 		nonFunctionalBuilder.append("Non-Functional Sprinklers:\n");
+		
+		Garden g = Garden.getInstance();
+		Iterator<Sprinkler> iterator = g.getCluster(Direction.NORTH).getIterator();
+		while(iterator.hasNext()){
+			Sprinkler s = iterator.next();
+			if(s.isFunctional()){
+				functionalBuilder.append("\t" + s.getId() + "\n");
+			} else {
+				nonFunctionalBuilder.append("\t" + s.getId() + "\n");
+			}
+		}
+		
+		iterator = g.getCluster(Direction.EAST).getIterator();
+		while(iterator.hasNext()){
+			Sprinkler s = iterator.next();
+			if(s.isFunctional()){
+				functionalBuilder.append("\t" + s.getId() + "\n");
+			} else {
+				nonFunctionalBuilder.append("\t" + s.getId() + "\n");
+			}
+		}
+		
+		iterator = g.getCluster(Direction.SOUTH).getIterator();
+		while(iterator.hasNext()){
+			Sprinkler s = iterator.next();
+			if(s.isFunctional()){
+				functionalBuilder.append("\t" + s.getId() + "\n");
+			} else {
+				nonFunctionalBuilder.append("\t" + s.getId() + "\n");
+			}
+		}
+		
+		iterator = g.getCluster(Direction.WEST).getIterator();
+		while(iterator.hasNext()){
+			Sprinkler s = iterator.next();
+			if(s.isFunctional()){
+				functionalBuilder.append("\t" + s.getId() + "\n");
+			} else {
+				nonFunctionalBuilder.append("\t" + s.getId() + "\n");
+			}
+		}
 	}
 	
 	private void setActionListeners(){

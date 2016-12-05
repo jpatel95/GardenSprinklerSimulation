@@ -15,8 +15,8 @@ public class TimeInterval {
     }
     
     public TimeInterval(Interval i) {
-        this.from = new LocalTime(i.getStart().getHourOfDay()+":"+i.getStart().getHourOfDay()+":00");
-        this.to = new LocalTime(i.getEnd().getHourOfDay()+":"+i.getEnd().getHourOfDay()+":00");
+        this.from = new LocalTime(i.getStart().getHourOfDay() + ":" + i.getStart().getMinuteOfHour() + ":00");
+        this.to = new LocalTime(i.getEnd().getHourOfDay() + ":" + i.getEnd().getMinuteOfHour() + ":00");
     }
 
     public boolean isValid() {

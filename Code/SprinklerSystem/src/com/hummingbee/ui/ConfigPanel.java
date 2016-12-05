@@ -13,9 +13,15 @@ import java.time.LocalDate;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import org.joda.time.Interval;
+
+import com.hummingbee.enums.Days;
 import com.hummingbee.system.Garden;
+import com.hummingbee.system.Schedule;
 import com.hummingbee.system.SystemDate;
 import com.hummingbee.ui.MainUI.UserInterface;
 import com.hummingbee.utils.Formatter;
@@ -29,6 +35,7 @@ public class ConfigPanel extends JPanel{
 	
 	private JPanel buttonPanel;
 	private JPanel labelPanel;
+	private JPanel schedulePanel;
 	
 	private JButton btnIncrementDay;
 	private JButton btnDecrementDay;
@@ -43,6 +50,11 @@ public class ConfigPanel extends JPanel{
 	private JLabel lblMinThreshold;
 	private JLabel lblMaxThreshold;
 	
+	private JScrollPane jScrollPaneSchedule;
+    private JTextArea textAreaSchedule;
+    private StringBuilder builder;
+
+    
 	public ConfigPanel(int width, int height){
 		super();
 		this.width = width;
@@ -52,12 +64,15 @@ public class ConfigPanel extends JPanel{
 
 		buttonPanel = new JPanel();
 		labelPanel = new JPanel();
+		schedulePanel = new JPanel();
 		
-		buttonPanel.setPreferredSize(new Dimension(width, height / 2));
-		labelPanel.setPreferredSize(new Dimension(width, height / 2));
+		buttonPanel.setPreferredSize(new Dimension(width, height / 4));
+		labelPanel.setPreferredSize(new Dimension(width, height / 4));
+		schedulePanel.setPreferredSize(new Dimension(width, height / 2));
 		
 		buttonPanel.setBackground(Color.GRAY);
 		labelPanel.setBackground(Color.GRAY);
+		schedulePanel.setBackground(Color.GRAY);
 		
 		btnIncrementDay = new JButton("+ Day");
 		btnDecrementDay = new JButton("- Day");
@@ -119,10 +134,42 @@ public class ConfigPanel extends JPanel{
 		labelPanel.add(lblMinThreshold);
 		labelPanel.add(lblMaxThreshold);
 		
+		
+		builder = new StringBuilder();
+		
+		textAreaSchedule = new JTextArea();
+		textAreaSchedule.setColumns(40);
+		textAreaSchedule.setLineWrap(true);
+		textAreaSchedule.setRows(18);
+		textAreaSchedule.setWrapStyleWord(true);
+		jScrollPaneSchedule = new JScrollPane(textAreaSchedule);
+		textAreaSchedule.setEditable(false);
+		
+		schedulePanel.add(jScrollPaneSchedule);
+		buildScheduleString();
+		textAreaSchedule.setText(builder.toString());
+		
 		add(buttonPanel, BorderLayout.NORTH);
 		add(labelPanel, BorderLayout.CENTER);
+		add(schedulePanel, BorderLayout.SOUTH);
 	}
 	
+	private void buildScheduleString() {
+		builder.append("Schedule:\n");
+		Schedule s = Garden.getInstance().getSchedule();
+		for (Days day : Days.values()) {
+			builder.append("\t" + day.toString() + ":\n");
+	        for(Interval i : s.getScheduleForDay(day)) {
+	        	builder.append("\t\t" + Formatter.integerFormatter(i.getStart().getHourOfDay()) + ":"
+	        			+ Formatter.integerFormatter(i.getStart().getMinuteOfHour()) + " to "
+	        			+ Formatter.integerFormatter(i.getEnd().getHourOfDay()) + ":"
+	        			+ Formatter.integerFormatter(i.getEnd().getMinuteOfHour()) + "\n");
+	        }
+	        builder.append("\n");
+		}
+		
+	}
+
 	private void setActionListeners(){
 		btnIncrementDay.addActionListener(new ActionListener(){
 			@Override
