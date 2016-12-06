@@ -36,7 +36,7 @@ public class MainUI {
 			container.setLayout(new BorderLayout());
 			
 			HomePanel homePanel = new HomePanel((int) (screenSize.getWidth()),
-					(int) (screenSize.getHeight() - 87));
+					(int) (screenSize.getHeight() - 70));
 			
 			ControlPanel controlPanel = new ControlPanel((int) (screenSize.getWidth()), 100);
 
@@ -44,27 +44,6 @@ public class MainUI {
 			container.add(controlPanel, BorderLayout.SOUTH);
 			
 			currentScreen = homePanel;
-			
-//			UsagePanel usagePanel = new UsagePanel(WIDTH, HEIGHT - 100);
-//			container.add(usagePanel, BorderLayout.NORTH);
-			
-//			ConfigPanel configPanel = new ConfigPanel(WIDTH, HEIGHT);
-//			container.add(configPanel, BorderLayout.NORTH);
-
-//			SchedulePanel configPanel = new SchedulePanel(WIDTH, HEIGHT);
-//			container.add(configPanel, BorderLayout.NORTH);
-			
-//			ThresholdTempPanel tempControlPanel = new ThresholdTempPanel(WIDTH, HEIGHT);
-//			container.add(tempControlPanel, BorderLayout.NORTH);
-			
-//			SetDayPanel setDayPanel = new SetDayPanel(WIDTH, HEIGHT);
-//			container.add(setDayPanel, BorderLayout.NORTH);
-			
-//			StatusPanel statusPanel = new StatusPanel(WIDTH, HEIGHT);
-//			container.add(statusPanel, BorderLayout.NORTH);
-			
-//			ActivationPanel activationPanel = new ActivationPanel(WIDTH, HEIGHT);
-//			container.add(activationPanel, BorderLayout.NORTH);
 			
 			pack();
 			setLocationRelativeTo(null);

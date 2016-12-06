@@ -75,7 +75,7 @@ public class ControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
 				JPanel screen = new HomePanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87);
+						UserInterface.getUIHeight() - 70);
 				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 				UserInterface.getInstance().setCurrentScreen(screen);
@@ -103,7 +103,7 @@ public class ControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
 				JPanel screen = new ConfigPanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87);
+						UserInterface.getUIHeight() - 70);
 				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 				UserInterface.getInstance().setCurrentScreen(screen);
@@ -115,7 +115,7 @@ public class ControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				UserInterface.clearContainer();
 				JPanel screen = new UsagePanel(UserInterface.getUIWidth(),
-						UserInterface.getUIHeight() - 87);
+						UserInterface.getUIHeight() - 70);
 				UserInterface.addToContainer(screen, BorderLayout.NORTH);
 				UserInterface.addToContainer(new ControlPanel(width, 100), BorderLayout.SOUTH);
 				UserInterface.getInstance().setCurrentScreen(screen);
